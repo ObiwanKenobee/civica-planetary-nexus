@@ -917,6 +917,100 @@ export type Database = {
         }
         Relationships: []
       }
+      consent_ledger: {
+        Row: {
+          conditions: Json | null
+          consent_scope: Database["public"]["Enums"]["consent_scope"]
+          data_layer: string
+          granted_at: string
+          granted_to: string | null
+          id: string
+          identity_id: string
+          is_active: boolean | null
+          revoked_at: string | null
+          user_id: string
+        }
+        Insert: {
+          conditions?: Json | null
+          consent_scope: Database["public"]["Enums"]["consent_scope"]
+          data_layer: string
+          granted_at?: string
+          granted_to?: string | null
+          id?: string
+          identity_id: string
+          is_active?: boolean | null
+          revoked_at?: string | null
+          user_id: string
+        }
+        Update: {
+          conditions?: Json | null
+          consent_scope?: Database["public"]["Enums"]["consent_scope"]
+          data_layer?: string
+          granted_at?: string
+          granted_to?: string | null
+          id?: string
+          identity_id?: string
+          is_active?: boolean | null
+          revoked_at?: string | null
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "consent_ledger_identity_id_fkey"
+            columns: ["identity_id"]
+            isOneToOne: false
+            referencedRelation: "sacred_identities"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      cultural_credentials: {
+        Row: {
+          credential_name: string
+          credential_type: string
+          expires_at: string | null
+          id: string
+          identity_id: string
+          is_verified: boolean | null
+          issued_at: string
+          issuer_community: string
+          metadata: Json | null
+          verification_method: string | null
+        }
+        Insert: {
+          credential_name: string
+          credential_type: string
+          expires_at?: string | null
+          id?: string
+          identity_id: string
+          is_verified?: boolean | null
+          issued_at?: string
+          issuer_community: string
+          metadata?: Json | null
+          verification_method?: string | null
+        }
+        Update: {
+          credential_name?: string
+          credential_type?: string
+          expires_at?: string | null
+          id?: string
+          identity_id?: string
+          is_verified?: boolean | null
+          issued_at?: string
+          issuer_community?: string
+          metadata?: Json | null
+          verification_method?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "cultural_credentials_identity_id_fkey"
+            columns: ["identity_id"]
+            isOneToOne: false
+            referencedRelation: "sacred_identities"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       custom_metrics: {
         Row: {
           configuration: Json | null
@@ -3981,6 +4075,59 @@ export type Database = {
         }
         Relationships: []
       }
+      ritual_sessions: {
+        Row: {
+          auth_method: Database["public"]["Enums"]["auth_method"]
+          id: string
+          identity_id: string
+          intention_statement: string | null
+          is_active: boolean | null
+          memory_offering: string | null
+          ritual_type: string
+          sacred_vow: string | null
+          sdg_cluster_accessed: string | null
+          session_end: string | null
+          session_start: string
+          user_id: string
+        }
+        Insert: {
+          auth_method: Database["public"]["Enums"]["auth_method"]
+          id?: string
+          identity_id: string
+          intention_statement?: string | null
+          is_active?: boolean | null
+          memory_offering?: string | null
+          ritual_type: string
+          sacred_vow?: string | null
+          sdg_cluster_accessed?: string | null
+          session_end?: string | null
+          session_start?: string
+          user_id: string
+        }
+        Update: {
+          auth_method?: Database["public"]["Enums"]["auth_method"]
+          id?: string
+          identity_id?: string
+          intention_statement?: string | null
+          is_active?: boolean | null
+          memory_offering?: string | null
+          ritual_type?: string
+          sacred_vow?: string | null
+          sdg_cluster_accessed?: string | null
+          session_end?: string | null
+          session_start?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "ritual_sessions_identity_id_fkey"
+            columns: ["identity_id"]
+            isOneToOne: false
+            referencedRelation: "sacred_identities"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       roundtable_participants: {
         Row: {
           joined_at: string
@@ -4006,6 +4153,51 @@ export type Database = {
             referencedColumns: ["id"]
           },
         ]
+      }
+      sacred_identities: {
+        Row: {
+          activated_at: string | null
+          ceremonial_title: string | null
+          created_at: string
+          cultural_lineage: string | null
+          id: string
+          identity_name: string
+          identity_type: Database["public"]["Enums"]["identity_type"]
+          is_active: boolean | null
+          mythic_avatar: string | null
+          proxy_represents: string | null
+          sacred_key_phrase: string | null
+          user_id: string
+        }
+        Insert: {
+          activated_at?: string | null
+          ceremonial_title?: string | null
+          created_at?: string
+          cultural_lineage?: string | null
+          id?: string
+          identity_name: string
+          identity_type: Database["public"]["Enums"]["identity_type"]
+          is_active?: boolean | null
+          mythic_avatar?: string | null
+          proxy_represents?: string | null
+          sacred_key_phrase?: string | null
+          user_id: string
+        }
+        Update: {
+          activated_at?: string | null
+          ceremonial_title?: string | null
+          created_at?: string
+          cultural_lineage?: string | null
+          id?: string
+          identity_name?: string
+          identity_type?: Database["public"]["Enums"]["identity_type"]
+          is_active?: boolean | null
+          mythic_avatar?: string | null
+          proxy_represents?: string | null
+          sacred_key_phrase?: string | null
+          user_id?: string
+        }
+        Relationships: []
       }
       sandbox_simulations: {
         Row: {
@@ -4854,6 +5046,47 @@ export type Database = {
         }
         Relationships: []
       }
+      temporal_tokens: {
+        Row: {
+          created_at: string
+          generation_span: string | null
+          guardian_permissions: Json | null
+          id: string
+          identity_id: string
+          lineage_name: string | null
+          sacred_story: string | null
+          token_type: string
+        }
+        Insert: {
+          created_at?: string
+          generation_span?: string | null
+          guardian_permissions?: Json | null
+          id?: string
+          identity_id: string
+          lineage_name?: string | null
+          sacred_story?: string | null
+          token_type: string
+        }
+        Update: {
+          created_at?: string
+          generation_span?: string | null
+          guardian_permissions?: Json | null
+          id?: string
+          identity_id?: string
+          lineage_name?: string | null
+          sacred_story?: string | null
+          token_type?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "temporal_tokens_identity_id_fkey"
+            columns: ["identity_id"]
+            isOneToOne: false
+            referencedRelation: "sacred_identities"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       theory_forge: {
         Row: {
           content: string
@@ -5613,6 +5846,18 @@ export type Database = {
       }
       bytea: {
         Args: { "": unknown } | { "": unknown }
+        Returns: string
+      }
+      create_ritual_session: {
+        Args: {
+          p_identity_id: string
+          p_auth_method: Database["public"]["Enums"]["auth_method"]
+          p_ritual_type: string
+          p_intention_statement?: string
+          p_memory_offering?: string
+          p_sacred_vow?: string
+          p_sdg_cluster?: string
+        }
         Returns: string
       }
       create_user_profile: {
@@ -7205,6 +7450,13 @@ export type Database = {
     Enums: {
       application_status: "pending" | "approved" | "rejected"
       assessment_status: "pending" | "in_progress" | "completed" | "overdue"
+      auth_method:
+        | "ritual"
+        | "vow"
+        | "intention"
+        | "cultural_credential"
+        | "ancestral_token"
+        | "proxy_delegate"
       carbon_data_source: "manual" | "iot" | "erp" | "smart_meter"
       case_status: "open" | "in_progress" | "resolved" | "closed"
       compliance_status:
@@ -7212,11 +7464,24 @@ export type Database = {
         | "non_compliant"
         | "under_review"
         | "remediation_required"
+      consent_scope:
+        | "personal"
+        | "ancestral"
+        | "ecological"
+        | "future_generational"
+        | "cosmic"
       document_type: "nda" | "cease_desist" | "dmca" | "license" | "contract"
       emission_scope: "scope1" | "scope2" | "scope3"
       engagement_status: "planned" | "completed" | "requires_follow_up"
       esg_category: "environmental" | "social" | "governance"
       esg_status: "on_track" | "at_risk" | "off_track"
+      identity_type:
+        | "civic"
+        | "ancestral"
+        | "ecological"
+        | "digital"
+        | "spiritual"
+        | "proxy"
       impact_level: "low" | "medium" | "high" | "very_high"
       industry_type:
         | "manufacturing"
@@ -7441,6 +7706,14 @@ export const Constants = {
     Enums: {
       application_status: ["pending", "approved", "rejected"],
       assessment_status: ["pending", "in_progress", "completed", "overdue"],
+      auth_method: [
+        "ritual",
+        "vow",
+        "intention",
+        "cultural_credential",
+        "ancestral_token",
+        "proxy_delegate",
+      ],
       carbon_data_source: ["manual", "iot", "erp", "smart_meter"],
       case_status: ["open", "in_progress", "resolved", "closed"],
       compliance_status: [
@@ -7449,11 +7722,26 @@ export const Constants = {
         "under_review",
         "remediation_required",
       ],
+      consent_scope: [
+        "personal",
+        "ancestral",
+        "ecological",
+        "future_generational",
+        "cosmic",
+      ],
       document_type: ["nda", "cease_desist", "dmca", "license", "contract"],
       emission_scope: ["scope1", "scope2", "scope3"],
       engagement_status: ["planned", "completed", "requires_follow_up"],
       esg_category: ["environmental", "social", "governance"],
       esg_status: ["on_track", "at_risk", "off_track"],
+      identity_type: [
+        "civic",
+        "ancestral",
+        "ecological",
+        "digital",
+        "spiritual",
+        "proxy",
+      ],
       impact_level: ["low", "medium", "high", "very_high"],
       industry_type: [
         "manufacturing",

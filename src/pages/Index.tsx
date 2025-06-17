@@ -1,4 +1,3 @@
-
 import { useState, useEffect } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
@@ -14,6 +13,8 @@ import SDGNetworkBuilder from '@/components/SDGNetworkBuilder';
 import CollaborativeBuilder from '@/components/CollaborativeBuilder';
 import PatternRecognition from '@/components/PatternRecognition';
 import { intelligenceClusters, getClusterById } from '@/data/intelligenceClusters';
+
+import SacredNavigation from '@/components/SacredNavigation';
 
 const Index = () => {
   const [activeCluster, setActiveCluster] = useState<number>(0);
@@ -82,6 +83,7 @@ const Index = () => {
             </div>
           </div>
           <div className="flex items-center space-x-4">
+            <SacredNavigation />
             <Badge variant="secondary" className="bg-green-500/20 text-green-400">
               <Zap className="w-3 h-3 mr-1" />
               Live Network
