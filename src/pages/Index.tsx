@@ -1,30 +1,43 @@
-import { useState, useEffect } from 'react';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Button } from '@/components/ui/button';
-import { Badge } from '@/components/ui/badge';
-import { Progress } from '@/components/ui/progress';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { Globe, Brain, Zap, Heart, Users, Layers, Puzzle, Eye } from 'lucide-react';
-import { motion } from 'framer-motion';
+import { useState, useEffect } from "react";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+import { Badge } from "@/components/ui/badge";
+import { Progress } from "@/components/ui/progress";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import {
+  Globe,
+  Brain,
+  Zap,
+  Heart,
+  Users,
+  Layers,
+  Puzzle,
+  Eye,
+} from "lucide-react";
+import { motion } from "framer-motion";
 
-import AtlasOfIntelligence from '@/components/AtlasOfIntelligence';
-import SDGIntelligence from '@/components/SDGIntelligence';
-import SDGNetworkBuilder from '@/components/SDGNetworkBuilder';
-import CollaborativeBuilder from '@/components/CollaborativeBuilder';
-import PatternRecognition from '@/components/PatternRecognition';
-import { intelligenceClusters, getClusterById } from '@/data/intelligenceClusters';
+import AtlasOfIntelligence from "@/components/AtlasOfIntelligence";
+import SDGIntelligence from "@/components/SDGIntelligence";
+import SDGNetworkBuilder from "@/components/SDGNetworkBuilder";
+import CollaborativeBuilder from "@/components/CollaborativeBuilder";
+import PatternRecognition from "@/components/PatternRecognition";
+import {
+  intelligenceClusters,
+  getClusterById,
+} from "@/data/intelligenceClusters";
 
-import SacredNavigation from '@/components/SacredNavigation';
+import SacredNavigation from "@/components/SacredNavigation";
+import FlourishDisplay from "@/components/FlourishDisplay";
 
 const Index = () => {
   const [activeCluster, setActiveCluster] = useState<number>(0);
   const [planetRotation, setPlanetRotation] = useState(0);
   const [showSDGDetails, setShowSDGDetails] = useState(false);
-  const [activeNetworkView, setActiveNetworkView] = useState('atlas');
+  const [activeNetworkView, setActiveNetworkView] = useState("atlas");
 
   useEffect(() => {
     const interval = setInterval(() => {
-      setPlanetRotation(prev => (prev + 0.5) % 360);
+      setPlanetRotation((prev) => (prev + 0.5) % 360);
     }, 100);
     return () => clearInterval(interval);
   }, []);
@@ -35,21 +48,33 @@ const Index = () => {
   };
 
   const handlePatternComplete = (pattern: any[]) => {
-    console.log('Pattern completed:', pattern);
+    console.log("Pattern completed:", pattern);
     // Add pattern completion logic here
   };
 
-  const selectedCluster = activeCluster > 0 ? getClusterById(activeCluster) : null;
+  const selectedCluster =
+    activeCluster > 0 ? getClusterById(activeCluster) : null;
 
   const globalStats = {
     totalProgress: Math.round(
-      intelligenceClusters.reduce((sum, cluster) => sum + cluster.totalProgress, 0) / intelligenceClusters.length
+      intelligenceClusters.reduce(
+        (sum, cluster) => sum + cluster.totalProgress,
+        0,
+      ) / intelligenceClusters.length,
     ),
-    activeNodes: intelligenceClusters.reduce((sum, cluster) => 
-      sum + cluster.nodes.filter(node => node.status === 'active').length, 0
+    activeNodes: intelligenceClusters.reduce(
+      (sum, cluster) =>
+        sum + cluster.nodes.filter((node) => node.status === "active").length,
+      0,
     ),
-    totalRituals: intelligenceClusters.reduce((sum, cluster) => sum + cluster.activeRituals, 0),
-    aiCoPilots: intelligenceClusters.reduce((sum, cluster) => sum + cluster.aiCoPilots, 0)
+    totalRituals: intelligenceClusters.reduce(
+      (sum, cluster) => sum + cluster.activeRituals,
+      0,
+    ),
+    aiCoPilots: intelligenceClusters.reduce(
+      (sum, cluster) => sum + cluster.aiCoPilots,
+      0,
+    ),
   };
 
   return (
@@ -64,7 +89,7 @@ const Index = () => {
             style={{
               left: `${Math.random() * 100}%`,
               top: `${Math.random() * 100}%`,
-              animationDelay: `${Math.random() * 3}s`
+              animationDelay: `${Math.random() * 3}s`,
             }}
           />
         ))}
@@ -79,19 +104,30 @@ const Index = () => {
               <h1 className="text-2xl font-bold bg-gradient-to-r from-cyan-400 to-purple-400 bg-clip-text text-transparent">
                 CIVICA 144
               </h1>
-              <p className="text-sm text-gray-400">Intelligent SDG Operating Platform</p>
+              <p className="text-sm text-gray-400">
+                Intelligent SDG Operating Platform
+              </p>
             </div>
           </div>
           <div className="flex items-center space-x-4">
             <SacredNavigation />
-            <Badge variant="secondary" className="bg-green-500/20 text-green-400">
+            <Badge
+              variant="secondary"
+              className="bg-green-500/20 text-green-400"
+            >
               <Zap className="w-3 h-3 mr-1" />
               Live Network
             </Badge>
-            <Badge variant="secondary" className="bg-purple-500/20 text-purple-400">
+            <Badge
+              variant="secondary"
+              className="bg-purple-500/20 text-purple-400"
+            >
               {globalStats.totalProgress}% Global Progress
             </Badge>
-            <Button variant="outline" className="border-purple-500 text-purple-400 hover:bg-purple-500/20">
+            <Button
+              variant="outline"
+              className="border-purple-500 text-purple-400 hover:bg-purple-500/20"
+            >
               <Brain className="w-4 h-4 mr-2" />
               AI Co-Pilot Council
             </Button>
@@ -103,19 +139,31 @@ const Index = () => {
         {!showSDGDetails ? (
           <Tabs defaultValue="atlas" className="space-y-6">
             <TabsList className="grid w-full grid-cols-4 bg-black/40 border border-white/20">
-              <TabsTrigger value="atlas" className="data-[state=active]:bg-cyan-500/50">
+              <TabsTrigger
+                value="atlas"
+                className="data-[state=active]:bg-cyan-500/50"
+              >
                 <Globe className="w-4 h-4 mr-2" />
                 Atlas
               </TabsTrigger>
-              <TabsTrigger value="builder" className="data-[state=active]:bg-purple-500/50">
+              <TabsTrigger
+                value="builder"
+                className="data-[state=active]:bg-purple-500/50"
+              >
                 <Layers className="w-4 h-4 mr-2" />
                 Network Builder
               </TabsTrigger>
-              <TabsTrigger value="collaborative" className="data-[state=active]:bg-green-500/50">
+              <TabsTrigger
+                value="collaborative"
+                className="data-[state=active]:bg-green-500/50"
+              >
                 <Users className="w-4 h-4 mr-2" />
                 Collaborative
               </TabsTrigger>
-              <TabsTrigger value="patterns" className="data-[state=active]:bg-orange-500/50">
+              <TabsTrigger
+                value="patterns"
+                className="data-[state=active]:bg-orange-500/50"
+              >
                 <Eye className="w-4 h-4 mr-2" />
                 Pattern Recognition
               </TabsTrigger>
@@ -125,7 +173,7 @@ const Index = () => {
               <div className="grid lg:grid-cols-3 gap-8">
                 {/* Atlas of Intelligence */}
                 <div className="lg:col-span-2 space-y-6">
-                  <AtlasOfIntelligence 
+                  <AtlasOfIntelligence
                     onSelectCluster={handleClusterSelect}
                     selectedCluster={activeCluster}
                   />
@@ -134,7 +182,9 @@ const Index = () => {
                   <div className="grid md:grid-cols-2 gap-4">
                     <Card className="bg-black/40 border-white/20 backdrop-blur-md">
                       <CardHeader>
-                        <CardTitle className="text-green-400">Planetary Pulse</CardTitle>
+                        <CardTitle className="text-green-400">
+                          Planetary Pulse
+                        </CardTitle>
                       </CardHeader>
                       <CardContent className="space-y-3">
                         <div className="space-y-2">
@@ -163,25 +213,43 @@ const Index = () => {
 
                     <Card className="bg-black/40 border-white/20 backdrop-blur-md">
                       <CardHeader>
-                        <CardTitle className="text-cyan-400">Network Status</CardTitle>
+                        <CardTitle className="text-cyan-400">
+                          Network Status
+                        </CardTitle>
                       </CardHeader>
                       <CardContent className="space-y-3">
                         <div className="grid grid-cols-2 gap-4 text-center">
                           <div>
-                            <div className="text-2xl font-bold text-green-400">{globalStats.activeNodes}</div>
-                            <div className="text-xs text-gray-400">Active SDGs</div>
+                            <div className="text-2xl font-bold text-green-400">
+                              {globalStats.activeNodes}
+                            </div>
+                            <div className="text-xs text-gray-400">
+                              Active SDGs
+                            </div>
                           </div>
                           <div>
-                            <div className="text-2xl font-bold text-purple-400">{globalStats.totalRituals}</div>
-                            <div className="text-xs text-gray-400">Live Rituals</div>
+                            <div className="text-2xl font-bold text-purple-400">
+                              {globalStats.totalRituals}
+                            </div>
+                            <div className="text-xs text-gray-400">
+                              Live Rituals
+                            </div>
                           </div>
                           <div>
-                            <div className="text-2xl font-bold text-blue-400">{globalStats.aiCoPilots}</div>
-                            <div className="text-xs text-gray-400">AI Co-Pilots</div>
+                            <div className="text-2xl font-bold text-blue-400">
+                              {globalStats.aiCoPilots}
+                            </div>
+                            <div className="text-xs text-gray-400">
+                              AI Co-Pilots
+                            </div>
                           </div>
                           <div>
-                            <div className="text-2xl font-bold text-orange-400">12</div>
-                            <div className="text-xs text-gray-400">Clusters</div>
+                            <div className="text-2xl font-bold text-orange-400">
+                              12
+                            </div>
+                            <div className="text-xs text-gray-400">
+                              Clusters
+                            </div>
                           </div>
                         </div>
                       </CardContent>
@@ -201,13 +269,19 @@ const Index = () => {
                     <CardContent className="space-y-4">
                       <div className="p-3 bg-gradient-to-r from-purple-500/20 to-pink-500/20 rounded-lg">
                         <p className="text-sm italic">
-                          "The Earth does not belong to us; we belong to the Earth. All things are connected like the blood that unites one family."
+                          "The Earth does not belong to us; we belong to the
+                          Earth. All things are connected like the blood that
+                          unites one family."
                         </p>
-                        <p className="text-xs text-gray-400 mt-2">— Chief Seattle (Wisdom Archive)</p>
+                        <p className="text-xs text-gray-400 mt-2">
+                          — Chief Seattle (Wisdom Archive)
+                        </p>
                       </div>
-                      
+
                       <div className="space-y-2">
-                        <h4 className="font-semibold text-cyan-400">Active Sacred Protocols</h4>
+                        <h4 className="font-semibold text-cyan-400">
+                          Active Sacred Protocols
+                        </h4>
                         <div className="space-y-1">
                           <div className="flex justify-between text-sm">
                             <span>Dawn Gratitude Circle</span>
@@ -219,7 +293,9 @@ const Index = () => {
                           </div>
                           <div className="flex justify-between text-sm">
                             <span>Intergenerational Council</span>
-                            <span className="text-purple-400">📅 Scheduled</span>
+                            <span className="text-purple-400">
+                              📅 Scheduled
+                            </span>
                           </div>
                           <div className="flex justify-between text-sm">
                             <span>Cosmic Consciousness Grid</span>
@@ -237,21 +313,33 @@ const Index = () => {
 
                   <Card className="bg-black/40 border-white/20 backdrop-blur-md">
                     <CardHeader>
-                      <CardTitle className="text-orange-400">Intelligence Clusters</CardTitle>
+                      <CardTitle className="text-orange-400">
+                        Intelligence Clusters
+                      </CardTitle>
                     </CardHeader>
                     <CardContent className="space-y-2">
                       {intelligenceClusters.slice(0, 6).map((cluster) => (
-                        <div key={cluster.id} className="flex justify-between items-center p-2 hover:bg-white/5 rounded cursor-pointer"
-                             onClick={() => handleClusterSelect(cluster.id)}>
-                          <span className="text-sm">{cluster.name.split(' & ')[0]}</span>
+                        <div
+                          key={cluster.id}
+                          className="flex justify-between items-center p-2 hover:bg-white/5 rounded cursor-pointer"
+                          onClick={() => handleClusterSelect(cluster.id)}
+                        >
+                          <span className="text-sm">
+                            {cluster.name.split(" & ")[0]}
+                          </span>
                           <div className="flex items-center space-x-2">
-                            <Progress value={cluster.totalProgress} className="w-12 h-1" />
-                            <span className="text-xs text-gray-400">{cluster.totalProgress}%</span>
+                            <Progress
+                              value={cluster.totalProgress}
+                              className="w-12 h-1"
+                            />
+                            <span className="text-xs text-gray-400">
+                              {cluster.totalProgress}%
+                            </span>
                           </div>
                         </div>
                       ))}
-                      <Button 
-                        variant="ghost" 
+                      <Button
+                        variant="ghost"
                         className="w-full text-cyan-400 hover:bg-cyan-400/20"
                         onClick={() => setShowSDGDetails(false)}
                       >
@@ -279,7 +367,7 @@ const Index = () => {
           <div className="space-y-6">
             <div className="flex items-center justify-between">
               <div className="flex items-center space-x-4">
-                <Button 
+                <Button
                   variant="outline"
                   onClick={() => setShowSDGDetails(false)}
                   className="border-white/20 text-white hover:bg-white/10"
@@ -293,7 +381,7 @@ const Index = () => {
                 )}
               </div>
             </div>
-            
+
             {selectedCluster && (
               <SDGIntelligence
                 sdgId={selectedCluster.id}
