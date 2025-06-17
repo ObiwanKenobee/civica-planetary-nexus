@@ -1,35 +1,19 @@
-import { useState, useEffect } from "react";
-import { motion, AnimatePresence } from "framer-motion";
-import { Card, CardContent } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
-import { Badge } from "@/components/ui/badge";
+import { useState, useEffect } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
+import { Card, CardContent } from '@/components/ui/card';
+import { Button } from '@/components/ui/button';
+import { Badge } from '@/components/ui/badge';
 import {
-  Bell,
-  Settings,
-  Menu,
-  X,
-  Compass,
-  Heart,
-  MessageCircle,
-  Eye,
-  Hand,
-} from "lucide-react";
-import { useNavigate } from "react-router-dom";
-import GlyphLogo from "./GlyphLogo";
-import ClusterCompass from "./ClusterCompass";
-import RitualInput from "./RitualInput";
-import PresenceOrb from "./PresenceOrb";
-import {
-  NavigationOracleState,
-  ArrivalChoice,
-  RoleMenuConfig,
-  SacredPulse,
-} from "@/types/navigation";
-import {
-  ARRIVAL_CHOICES,
-  ROLE_MENU_CONFIGS,
-  SAMPLE_SACRED_PULSES,
-} from "@/data/navigationData";
+  Bell, Settings, Menu, X, Compass,
+  Heart, MessageCircle, Eye, Hand
+} from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
+import GlyphLogo from './GlyphLogo';
+import ClusterCompass from './ClusterCompass';
+import RitualInput from './RitualInput';
+import PresenceOrb from './PresenceOrb';
+import { NavigationOracleState, ArrivalChoice, RoleMenuConfig, SacredPulse } from '@/types/navigation';
+import { ARRIVAL_CHOICES, ROLE_MENU_CONFIGS, SAMPLE_SACRED_PULSES } from '@/data/navigationData';
 
 interface NavigationOracleProps {
   isAuthenticated?: boolean;
@@ -44,18 +28,18 @@ const NavigationOracle = ({
   userRole,
   onRoleSelect,
   onArrivalChoice,
-  className = "",
+  className = ""
 }: NavigationOracleProps) => {
   const navigate = useNavigate();
   const [oracleState, setOracleState] = useState<NavigationOracleState>({
-    mode: isAuthenticated ? "authenticated" : "arrival",
+    mode: isAuthenticated ? 'authenticated' : 'arrival',
     selectedRole: userRole || null,
     activeCluster: null,
-    ritualPhase: "preparation",
+    ritualPhase: 'preparation',
     cosmicAlignment: {
-      lunarPhase: "full",
-      timeOfDay: "midday",
-      season: "spring",
+      lunarPhase: 'full',
+      timeOfDay: 'midday',
+      season: 'spring',
       sacredEvents: [],
       planetaryEnergy: 0.7,
     },
@@ -64,11 +48,8 @@ const NavigationOracle = ({
 
   const [showCompass, setShowCompass] = useState(false);
   const [showPulses, setShowPulses] = useState(false);
-  const [activePulses, setActivePulses] =
-    useState<SacredPulse[]>(SAMPLE_SACRED_PULSES);
-  const [currentLunarPhase, setCurrentLunarPhase] = useState<
-    "new" | "waxing" | "full" | "waning"
-  >("full");
+  const [activePulses, setActivePulses] = useState<SacredPulse[]>(SAMPLE_SACRED_PULSES);
+  const [currentLunarPhase, setCurrentLunarPhase] = useState<'new' | 'waxing' | 'full' | 'waning'>('full');
 
   // Update cosmic alignment based on real time
   useEffect(() => {
@@ -77,22 +58,22 @@ const NavigationOracle = ({
       const hour = now.getHours();
       const day = now.getDate();
 
-      let timeOfDay: "dawn" | "midday" | "dusk" | "midnight";
-      if (hour >= 5 && hour < 9) timeOfDay = "dawn";
-      else if (hour >= 9 && hour < 17) timeOfDay = "midday";
-      else if (hour >= 17 && hour < 21) timeOfDay = "dusk";
-      else timeOfDay = "midnight";
+      let timeOfDay: 'dawn' | 'midday' | 'dusk' | 'midnight';
+      if (hour >= 5 && hour < 9) timeOfDay = 'dawn';
+      else if (hour >= 9 && hour < 17) timeOfDay = 'midday';
+      else if (hour >= 17 && hour < 21) timeOfDay = 'dusk';
+      else timeOfDay = 'midnight';
 
       // Simplified lunar phase calculation
       const lunarCycle = ((day % 28) / 28) * 4;
-      let lunarPhase: "new" | "waxing" | "full" | "waning";
-      if (lunarCycle < 1) lunarPhase = "new";
-      else if (lunarCycle < 2) lunarPhase = "waxing";
-      else if (lunarCycle < 3) lunarPhase = "full";
-      else lunarPhase = "waning";
+      let lunarPhase: 'new' | 'waxing' | 'full' | 'waning';
+      if (lunarCycle < 1) lunarPhase = 'new';
+      else if (lunarCycle < 2) lunarPhase = 'waxing';
+      else if (lunarCycle < 3) lunarPhase = 'full';
+      else lunarPhase = 'waning';
 
       setCurrentLunarPhase(lunarPhase);
-      setOracleState((prev) => ({
+      setOracleState(prev => ({
         ...prev,
         cosmicAlignment: {
           ...prev.cosmicAlignment,
@@ -110,9 +91,9 @@ const NavigationOracle = ({
 
   // Update authentication state
   useEffect(() => {
-    setOracleState((prev) => ({
+    setOracleState(prev => ({
       ...prev,
-      mode: isAuthenticated ? "authenticated" : "arrival",
+      mode: isAuthenticated ? 'authenticated' : 'arrival',
       selectedRole: userRole || null,
     }));
   }, [isAuthenticated, userRole]);
@@ -122,23 +103,23 @@ const NavigationOracle = ({
 
     // Navigate based on choice
     switch (choice.portal.type) {
-      case "ritual_library":
-        navigate("/dashboard?focus=rituals");
+      case 'ritual_library':
+        navigate('/dashboard?focus=rituals');
         break;
-      case "copilot_council":
-        navigate("/dashboard?focus=copilots");
+      case 'copilot_council':
+        navigate('/dashboard?focus=copilots');
         break;
-      case "scroll_forge":
-        navigate("/dashboard?focus=scrolls");
+      case 'scroll_forge':
+        navigate('/dashboard?focus=scrolls');
         break;
-      case "atlas_constellation":
-        navigate("/dashboard?focus=atlas");
+      case 'atlas_constellation':
+        navigate('/dashboard?focus=atlas');
         break;
-      case "flourish_garden":
-        navigate("/billing");
+      case 'flourish_garden':
+        navigate('/billing');
         break;
       default:
-        navigate("/dashboard");
+        navigate('/dashboard');
     }
   };
 
@@ -147,34 +128,35 @@ const NavigationOracle = ({
     navigate(action.destination);
   };
 
-  const handleClusterSelect = (clusterId: number) => {
-    setOracleState((prev) => ({ ...prev, activeCluster: clusterId }));
-    navigate(`/dashboard?cluster=${clusterId}`);
+  const handleClusterSelect = (clusterId: string) => {
+    setOracleState(prev => ({ ...prev, activeCluster: clusterId }));
+    setShowCompass(false);
+
+    // Navigate based on cluster
+    const clusterRoutes: Record<string, string> = {
+      intelligence: '/dashboard',
+      governance: '/governance',
+      economics: '/billing',
+      technology: '/technology',
+      rituals: '/rituals',
+      infrastructure: '/infrastructure',
+      bioregional: '/bioregional',
+      education: '/education',
+      health: '/health',
+      culture: '/culture',
+      communication: '/communication',
+      ritual_tech: '/ritual-technologist',
+      research: '/research',
+    };
+
+    const route = clusterRoutes[clusterId];
+    if (route) {
+      navigate(route);
+    }
   };
-
-  const handleIntention = (intention: string) => {
-    setOracleState((prev) => ({ ...prev, intentionFocus: intention }));
-    console.log("Sacred intention set:", intention);
-  };
-
-  const roleConfig = userRole ? ROLE_MENU_CONFIGS[userRole] : null;
-
-  return (
-    <motion.header
-      className={`relative z-50 backdrop-blur-md border-b border-white/20 ${className}`}
-      initial={{ y: -100, opacity: 0 }}
-      animate={{ y: 0, opacity: 1 }}
-      transition={{ duration: 0.8, ease: "easeOut" }}
-    >
-      <div className="container mx-auto px-6 py-4">
-        <div className="flex items-center justify-between">
-          {/* Left: Living Glyph Logo */}
-          <motion.div
-            className="flex items-center space-x-4"
-            whileHover={{ scale: 1.02 }}
           >
             <GlyphLogo
-              variant={userRole || "base"}
+              variant={userRole || 'base'}
               lunarPhase={currentLunarPhase}
               size={48}
               energyLevel={oracleState.cosmicAlignment.planetaryEnergy}
@@ -185,8 +167,7 @@ const NavigationOracle = ({
                 CIVICA 144+
               </div>
               <div className="text-xs text-gray-400 capitalize">
-                {oracleState.cosmicAlignment.timeOfDay} •{" "}
-                {oracleState.cosmicAlignment.lunarPhase} moon
+                {oracleState.cosmicAlignment.timeOfDay} • {oracleState.cosmicAlignment.lunarPhase} moon
               </div>
             </div>
           </motion.div>
@@ -194,7 +175,7 @@ const NavigationOracle = ({
           {/* Center: Context-Aware Navigation */}
           <div className="flex-1 flex justify-center">
             <AnimatePresence mode="wait">
-              {oracleState.mode === "arrival" && (
+              {oracleState.mode === 'arrival' && (
                 <motion.div
                   key="arrival"
                   initial={{ opacity: 0, y: 20 }}
@@ -202,15 +183,13 @@ const NavigationOracle = ({
                   exit={{ opacity: 0, y: -20 }}
                   className="flex flex-col items-center space-y-4"
                 >
-                  <h2 className="text-lg text-white">
-                    What brings you here today?
-                  </h2>
+                  <h2 className="text-lg text-white">What brings you here today?</h2>
                   <div className="flex flex-wrap gap-2 justify-center">
                     {ARRIVAL_CHOICES.map((choice) => (
                       <motion.button
                         key={choice.id}
                         className={`
-                          px-4 py-2 rounded-lg border border-white/20 
+                          px-4 py-2 rounded-lg border border-white/20
                           bg-gradient-to-r ${choice.color} bg-opacity-20
                           hover:bg-opacity-40 transition-all
                           flex items-center space-x-2
@@ -220,16 +199,14 @@ const NavigationOracle = ({
                         onClick={() => handleArrivalChoice(choice)}
                       >
                         <span className="text-lg">{choice.glyph}</span>
-                        <span className="text-sm text-white">
-                          {choice.intention}
-                        </span>
+                        <span className="text-sm text-white">{choice.intention}</span>
                       </motion.button>
                     ))}
                   </div>
                 </motion.div>
               )}
 
-              {oracleState.mode === "authenticated" && roleConfig && (
+              {oracleState.mode === 'authenticated' && roleConfig && (
                 <motion.div
                   key="authenticated"
                   initial={{ opacity: 0, y: 20 }}
@@ -245,16 +222,14 @@ const NavigationOracle = ({
                         className="px-3 py-2 rounded-lg bg-white/10 hover:bg-white/20 transition-all flex items-center space-x-2"
                         style={{
                           borderColor: roleConfig.primaryColor,
-                          color: roleConfig.primaryColor,
+                          color: roleConfig.primaryColor
                         }}
                         whileHover={{ scale: 1.05 }}
                         whileTap={{ scale: 0.95 }}
                         onClick={() => handleRoleAction(action)}
                       >
                         <span className="text-sm">{action.icon}</span>
-                        <span className="text-sm font-medium">
-                          {action.verb}
-                        </span>
+                        <span className="text-sm font-medium">{action.verb}</span>
                       </motion.button>
                     ))}
                   </div>
@@ -292,9 +267,7 @@ const NavigationOracle = ({
               onClick={() => setShowPulses(!showPulses)}
             >
               <Bell className="w-5 h-5 text-purple-400" />
-              {activePulses.filter(
-                (p) => p.urgency === "urgent" || p.urgency === "important",
-              ).length > 0 && (
+              {activePulses.filter(p => p.urgency === 'urgent' || p.urgency === 'important').length > 0 && (
                 <motion.div
                   className="absolute -top-1 -right-1 w-3 h-3 bg-red-500 rounded-full"
                   animate={{ scale: [1, 1.2, 1] }}
@@ -308,14 +281,10 @@ const NavigationOracle = ({
               <PresenceOrb
                 userRole={userRole}
                 activeCluster={oracleState.activeCluster || undefined}
-                ritualStatus={
-                  oracleState.ritualPhase !== "preparation"
-                    ? "Active Ceremony"
-                    : undefined
-                }
+                ritualStatus={oracleState.ritualPhase !== 'preparation' ? 'Active Ceremony' : undefined}
                 size="md"
-                onLogoutClick={() => navigate("/auth")}
-                onSettingsClick={() => navigate("/settings")}
+                onLogoutClick={() => navigate('/auth')}
+                onSettingsClick={() => navigate('/settings')}
               />
             )}
           </div>
@@ -334,12 +303,8 @@ const NavigationOracle = ({
             <Card className="bg-black/80 border-white/20 backdrop-blur-md p-4">
               <CardContent className="p-0">
                 <div className="text-center mb-4">
-                  <h3 className="text-lg font-semibold text-cyan-400">
-                    Intelligence Compass
-                  </h3>
-                  <p className="text-xs text-gray-400">
-                    Navigate the 12 sacred clusters
-                  </p>
+                  <h3 className="text-lg font-semibold text-cyan-400">Intelligence Compass</h3>
+                  <p className="text-xs text-gray-400">Navigate the 12 sacred clusters</p>
                 </div>
                 <ClusterCompass
                   selectedCluster={oracleState.activeCluster || undefined}
@@ -367,9 +332,7 @@ const NavigationOracle = ({
             <Card className="bg-black/80 border-white/20 backdrop-blur-md">
               <CardContent className="p-4">
                 <div className="flex items-center justify-between mb-4">
-                  <h3 className="text-lg font-semibold text-purple-400">
-                    Sacred Pulses
-                  </h3>
+                  <h3 className="text-lg font-semibold text-purple-400">Sacred Pulses</h3>
                   <Badge variant="outline" className="text-xs">
                     {activePulses.length} active
                   </Badge>
@@ -380,12 +343,9 @@ const NavigationOracle = ({
                       key={pulse.id}
                       className={`
                         p-3 rounded-lg border transition-all cursor-pointer
-                        ${
-                          pulse.urgency === "urgent"
-                            ? "border-red-400 bg-red-500/10"
-                            : pulse.urgency === "important"
-                              ? "border-yellow-400 bg-yellow-500/10"
-                              : "border-white/20 bg-white/5"
+                        ${pulse.urgency === 'urgent' ? 'border-red-400 bg-red-500/10' :
+                          pulse.urgency === 'important' ? 'border-yellow-400 bg-yellow-500/10' :
+                          'border-white/20 bg-white/5'
                         }
                       `}
                       whileHover={{ scale: 1.02 }}
@@ -395,28 +355,18 @@ const NavigationOracle = ({
                       <div className="flex items-start justify-between">
                         <div className="flex-1">
                           <div className="flex items-center space-x-2 mb-1">
-                            <span className="text-lg">
-                              {pulse.energySignature}
-                            </span>
-                            <h4 className="text-sm font-semibold text-white">
-                              {pulse.title}
-                            </h4>
+                            <span className="text-lg">{pulse.energySignature}</span>
+                            <h4 className="text-sm font-semibold text-white">{pulse.title}</h4>
                           </div>
-                          <p className="text-xs text-gray-300">
-                            {pulse.message}
-                          </p>
+                          <p className="text-xs text-gray-300">{pulse.message}</p>
                           <div className="flex items-center justify-between mt-2">
-                            <span className="text-xs text-gray-400">
-                              {pulse.source}
-                            </span>
+                            <span className="text-xs text-gray-400">{pulse.source}</span>
                             <Badge
                               variant="outline"
                               className={`text-xs ${
-                                pulse.urgency === "urgent"
-                                  ? "border-red-400 text-red-400"
-                                  : pulse.urgency === "important"
-                                    ? "border-yellow-400 text-yellow-400"
-                                    : "border-gray-400 text-gray-400"
+                                pulse.urgency === 'urgent' ? 'border-red-400 text-red-400' :
+                                pulse.urgency === 'important' ? 'border-yellow-400 text-yellow-400' :
+                                'border-gray-400 text-gray-400'
                               }`}
                             >
                               {pulse.urgency}
