@@ -90,6 +90,8 @@ export interface ClusterCompassNode {
   activeRituals: number;
   canEnter: boolean;
   guardianMessage?: string;
+  externalLink?: string;
+  description?: string;
 }
 
 export interface SacredPulse {
