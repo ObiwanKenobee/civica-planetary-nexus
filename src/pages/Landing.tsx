@@ -390,7 +390,7 @@ const Landing = () => {
                   </div>
                   <div className="p-3 bg-blue-500/10 rounded-lg">
                     <p className="text-sm italic">"Every line of code becomes a prayer for the future."</p>
-                    <p className="text-xs text-gray-400 mt-2">— Sacred Coder</p>
+                    <p className="text-xs text-gray-400 mt-2">�� Sacred Coder</p>
                   </div>
                 </div>
               </CardContent>
@@ -793,8 +793,8 @@ const Landing = () => {
                   Explore Services
                 </Button>
               </motion.div>
-            )}
-          </AnimatePresence>
+            </div>
+          </div>
         </div>
       </section>
 
