@@ -153,10 +153,18 @@ const NavigationOracle = ({
     if (route) {
       navigate(route);
     }
-  };
-          >
-            <GlyphLogo
-              variant={userRole || 'base'}
+    };
+
+    return (
+      <div
+        className={`relative bg-black/40 backdrop-blur-md border-b border-white/20 ${className}`}
+      >
+        <div className="container mx-auto px-6 py-4">
+          <div className="flex items-center justify-between">
+            {/* Left: Glyph Logo and Main Navigation */}
+            <div className="flex items-center space-x-8">
+              <GlyphLogo
+                variant={userRole || 'base'}
               lunarPhase={currentLunarPhase}
               size={48}
               energyLevel={oracleState.cosmicAlignment.planetaryEnergy}
