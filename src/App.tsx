@@ -28,6 +28,7 @@ const App = () => (
               <Routes>
                 <Route path="/" element={<Landing />} />
                 <Route path="/auth" element={<Auth />} />
+                <Route path="/ritual-technologist" element={<RitualTech />} />
                 <Route
                   path="/dashboard"
                   element={
