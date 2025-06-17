@@ -63,6 +63,15 @@ const SacredNavigation = () => {
           <Button
             variant="outline"
             size="sm"
+            onClick={() => navigate("/")}
+            className="border-purple-400 text-purple-400 hover:bg-purple-400/20"
+          >
+            <Crown className="w-4 h-4 mr-2" />
+            The Portal
+          </Button>
+          <Button
+            variant="outline"
+            size="sm"
             onClick={() => navigate("/billing")}
             className="border-cyan-400 text-cyan-400 hover:bg-cyan-400/20"
           >
