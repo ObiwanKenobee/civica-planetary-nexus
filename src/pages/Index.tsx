@@ -28,6 +28,7 @@ import {
 
 import SacredNavigation from "@/components/SacredNavigation";
 import FlourishDisplay from "@/components/FlourishDisplay";
+import NavigationOracle from "@/components/navigation/NavigationOracle";
 
 const Index = () => {
   const [activeCluster, setActiveCluster] = useState<number>(0);
