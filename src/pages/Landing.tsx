@@ -1,50 +1,33 @@
-import { useState, useEffect } from "react";
-import { motion, AnimatePresence } from "framer-motion";
-import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Badge } from "@/components/ui/badge";
+import { useState, useEffect } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
+import { Button } from '@/components/ui/button';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Badge } from '@/components/ui/badge';
 import {
-  ChevronDown,
-  Play,
-  Users,
-  Sparkles,
-  Brain,
-  Heart,
-  ArrowRight,
-  Globe,
-  Star,
-  TreePine,
-  Crown,
-  Clock,
-  BookOpen,
-  Zap,
-  Shield,
-  Network,
-  Moon,
-  Sun,
-} from "lucide-react";
-import { useNavigate } from "react-router-dom";
-import SacredPortal from "@/components/SacredPortal";
-import SacredAudio from "@/components/SacredAudio";
-import NavigationOracle from "@/components/navigation/NavigationOracle";
+  ChevronDown, Play, Users, Sparkles, Brain, Heart,
+  ArrowRight, Globe, Star, TreePine, Crown, Clock,
+  BookOpen, Zap, Shield, Network, Moon, Sun
+} from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
+import SacredPortal from '@/components/SacredPortal';
+import SacredAudio from '@/components/SacredAudio';
+import NavigationOracle from '@/components/navigation/NavigationOracle';
 import {
   SACRED_ROLES,
   INTELLIGENCE_CLUSTERS_PREVIEW,
   SCROLL_OF_ORIGINS,
   AI_COPILOTS_PREVIEW,
   LANDING_QUOTES,
-  RITUAL_CLOCK_CONFIG,
-} from "@/data/landingData";
-import { SacredRole, IntelligenceClusterPreview } from "@/types/landing";
+  RITUAL_CLOCK_CONFIG
+} from '@/data/landingData';
+import { SacredRole, IntelligenceClusterPreview } from '@/types/landing';
 
 const Landing = () => {
   const navigate = useNavigate();
-  const [currentSection, setCurrentSection] = useState("invocation");
+  const [currentSection, setCurrentSection] = useState('invocation');
   const [selectedRole, setSelectedRole] = useState<SacredRole | null>(null);
   const [hoveredCluster, setHoveredCluster] = useState<number | null>(null);
-  const [timeOfDay, setTimeOfDay] = useState<
-    "dawn" | "midday" | "dusk" | "midnight"
-  >("midday");
+  const [timeOfDay, setTimeOfDay] = useState<'dawn' | 'midday' | 'dusk' | 'midnight'>('midday');
   const [currentQuote, setCurrentQuote] = useState(0);
   const [showRoleSelector, setShowRoleSelector] = useState(false);
   const [flourishFlow, setFlourishFlow] = useState(0);
@@ -53,10 +36,10 @@ const Landing = () => {
   useEffect(() => {
     const updateTimeOfDay = () => {
       const hour = new Date().getHours();
-      if (hour >= 5 && hour < 9) setTimeOfDay("dawn");
-      else if (hour >= 9 && hour < 17) setTimeOfDay("midday");
-      else if (hour >= 17 && hour < 21) setTimeOfDay("dusk");
-      else setTimeOfDay("midnight");
+      if (hour >= 5 && hour < 9) setTimeOfDay('dawn');
+      else if (hour >= 9 && hour < 17) setTimeOfDay('midday');
+      else if (hour >= 17 && hour < 21) setTimeOfDay('dusk');
+      else setTimeOfDay('midnight');
     };
 
     updateTimeOfDay();
@@ -83,25 +66,25 @@ const Landing = () => {
   const getTimeBasedTheme = () => {
     const themes = {
       dawn: {
-        bg: "from-orange-900 via-amber-900 to-yellow-900",
-        accent: "from-amber-400 to-orange-500",
-        text: "Awakening to Possibility",
+        bg: 'from-orange-900 via-amber-900 to-yellow-900',
+        accent: 'from-amber-400 to-orange-500',
+        text: 'Awakening to Possibility'
       },
       midday: {
-        bg: "from-blue-900 via-indigo-900 to-purple-900",
-        accent: "from-cyan-400 to-blue-500",
-        text: "Manifesting Reality",
+        bg: 'from-blue-900 via-indigo-900 to-purple-900',
+        accent: 'from-cyan-400 to-blue-500',
+        text: 'Manifesting Reality'
       },
       dusk: {
-        bg: "from-purple-900 via-pink-900 to-indigo-900",
-        accent: "from-purple-400 to-pink-500",
-        text: "Integrating Wisdom",
+        bg: 'from-purple-900 via-pink-900 to-indigo-900',
+        accent: 'from-purple-400 to-pink-500',
+        text: 'Integrating Wisdom'
       },
       midnight: {
-        bg: "from-slate-900 via-gray-900 to-indigo-900",
-        accent: "from-indigo-400 to-purple-500",
-        text: "Dreaming the Future",
-      },
+        bg: 'from-slate-900 via-gray-900 to-indigo-900',
+        accent: 'from-indigo-400 to-purple-500',
+        text: 'Dreaming the Future'
+      }
     };
     return themes[timeOfDay];
   };
@@ -112,19 +95,17 @@ const Landing = () => {
     setSelectedRole(role);
     // Simulate ritual entry process
     setTimeout(() => {
-      navigate("/auth", { state: { selectedRole: role } });
+      navigate('/auth', { state: { selectedRole: role } });
     }, 2000);
   };
 
   const scrollToSection = (section: string) => {
     setCurrentSection(section);
-    document.getElementById(section)?.scrollIntoView({ behavior: "smooth" });
+    document.getElementById(section)?.scrollIntoView({ behavior: 'smooth' });
   };
 
   return (
-    <div
-      className={`min-h-screen bg-gradient-to-br ${theme.bg} text-white overflow-x-hidden`}
-    >
+    <div className={`min-h-screen bg-gradient-to-br ${theme.bg} text-white overflow-x-hidden`}>
       {/* Cosmic Background */}
       <div className="fixed inset-0 opacity-30">
         {[...Array(100)].map((_, i) => (
@@ -135,7 +116,7 @@ const Landing = () => {
               left: `${Math.random() * 100}%`,
               top: `${Math.random() * 100}%`,
               animationDelay: `${Math.random() * 3}s`,
-              animationDuration: `${2 + Math.random() * 2}s`,
+              animationDuration: `${2 + Math.random() * 2}s`
             }}
           />
         ))}
@@ -145,16 +126,13 @@ const Landing = () => {
       <NavigationOracle
         isAuthenticated={false}
         onArrivalChoice={(choice) => {
-          console.log("Arrival choice:", choice);
+          console.log('Arrival choice:', choice);
           // Handle navigation based on choice
         }}
       />
 
       {/* Section 1: Invocation Portal */}
-      <section
-        id="invocation"
-        className="relative min-h-screen flex items-center justify-center"
-      >
+      <section id="invocation" className="relative min-h-screen flex items-center justify-center">
         <div className="container mx-auto px-6 text-center">
           <motion.div
             initial={{ opacity: 0, y: 50 }}
@@ -175,9 +153,7 @@ const Landing = () => {
 
             {/* Main Invocation */}
             <div className="space-y-6">
-              <h1
-                className={`text-6xl md:text-8xl font-bold bg-gradient-to-r ${theme.accent} bg-clip-text text-transparent`}
-              >
+              <h1 className={`text-6xl md:text-8xl font-bold bg-gradient-to-r ${theme.accent} bg-clip-text text-transparent`}>
                 CIVICA 144+
               </h1>
               <h2 className="text-2xl md:text-4xl font-light text-gray-200">
@@ -201,7 +177,10 @@ const Landing = () => {
             </motion.div>
 
             {/* Main CTA */}
-            <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
+            <motion.div
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+            >
               <Button
                 onClick={() => setShowRoleSelector(true)}
                 size="lg"
@@ -217,7 +196,7 @@ const Landing = () => {
               animate={{ y: [0, 10, 0] }}
               transition={{ repeat: Infinity, duration: 2 }}
               className="cursor-pointer"
-              onClick={() => scrollToSection("atlas")}
+              onClick={() => scrollToSection('atlas')}
             >
               <ChevronDown className="w-8 h-8 mx-auto text-gray-400 hover:text-white" />
             </motion.div>
@@ -257,9 +236,8 @@ const Landing = () => {
               Interactive Living Atlas
             </h2>
             <p className="text-xl text-gray-300 max-w-3xl mx-auto">
-              12 clusters of planetary intelligence, each pulsing with the
-              consciousness of Earth's awakening. Hover to reveal their sacred
-              names.
+              12 clusters of planetary intelligence, each pulsing with the consciousness
+              of Earth's awakening. Hover to reveal their sacred names.
             </p>
           </motion.div>
 
@@ -285,22 +263,14 @@ const Landing = () => {
                   onHoverEnd={() => setHoveredCluster(null)}
                   className="cursor-pointer"
                 >
-                  <Card
-                    className={`bg-black/40 border-white/20 backdrop-blur-md hover:border-white/40 transition-all ${
-                      hoveredCluster === cluster.id
-                        ? "ring-2 ring-cyan-400"
-                        : ""
-                    }`}
-                  >
+                  <Card className={`bg-black/40 border-white/20 backdrop-blur-md hover:border-white/40 transition-all ${
+                    hoveredCluster === cluster.id ? 'ring-2 ring-cyan-400' : ''
+                  }`}>
                     <CardHeader className="text-center">
-                      <div
-                        className={`mx-auto w-12 h-12 rounded-full bg-gradient-to-r ${cluster.color} flex items-center justify-center mb-2`}
-                      >
+                      <div className={`mx-auto w-12 h-12 rounded-full bg-gradient-to-r ${cluster.color} flex items-center justify-center mb-2`}>
                         <span className="text-2xl">{cluster.icon}</span>
                       </div>
-                      <CardTitle className="text-sm">
-                        {cluster.shortName}
-                      </CardTitle>
+                      <CardTitle className="text-sm">{cluster.shortName}</CardTitle>
                     </CardHeader>
                     <CardContent className="text-center space-y-2">
                       <div className="text-xs text-gray-400">
@@ -315,11 +285,9 @@ const Landing = () => {
                       <Badge
                         variant="outline"
                         className={`text-xs ${
-                          cluster.ritualActivity === "high"
-                            ? "border-green-400 text-green-400"
-                            : cluster.ritualActivity === "medium"
-                              ? "border-yellow-400 text-yellow-400"
-                              : "border-gray-400 text-gray-400"
+                          cluster.ritualActivity === 'high' ? 'border-green-400 text-green-400' :
+                          cluster.ritualActivity === 'medium' ? 'border-yellow-400 text-yellow-400' :
+                          'border-gray-400 text-gray-400'
                         }`}
                       >
                         {cluster.ritualActivity} activity
@@ -340,17 +308,13 @@ const Landing = () => {
                   className="mt-8 max-w-2xl mx-auto"
                 >
                   {(() => {
-                    const cluster = INTELLIGENCE_CLUSTERS_PREVIEW.find(
-                      (c) => c.id === hoveredCluster,
-                    );
+                    const cluster = INTELLIGENCE_CLUSTERS_PREVIEW.find(c => c.id === hoveredCluster);
                     if (!cluster) return null;
 
                     return (
                       <Card className="bg-gradient-to-r from-purple-500/20 to-cyan-500/20 border-white/20 backdrop-blur-md">
                         <CardContent className="p-6 text-center">
-                          <h3 className="text-xl font-semibold mb-2">
-                            {cluster.name}
-                          </h3>
+                          <h3 className="text-xl font-semibold mb-2">{cluster.name}</h3>
                           <p className="text-gray-300">{cluster.description}</p>
                         </CardContent>
                       </Card>
@@ -377,8 +341,7 @@ const Landing = () => {
               Sacred Economy
             </h2>
             <p className="text-2xl text-gray-300 max-w-4xl mx-auto mb-8">
-              🌾 Flourish is not a currency. It is your sacred signature across
-              time and regeneration.
+              🌾 Flourish is not a currency. It is your sacred signature across time and regeneration.
             </p>
           </motion.div>
 
@@ -393,24 +356,17 @@ const Landing = () => {
               </CardHeader>
               <CardContent className="space-y-4">
                 <div className="space-y-3">
-                  {[
-                    "$ Fiat Currency",
-                    "✨ Flourish Generation",
-                    "🌍 Bioregional Commons",
-                    "📜 Sacred Scrolls",
-                  ].map((stage, index) => (
+                  {['$ Fiat Currency', '✨ Flourish Generation', '🌍 Bioregional Commons', '📜 Sacred Scrolls'].map((stage, index) => (
                     <motion.div
                       key={stage}
                       className="flex items-center space-x-3"
                       animate={{
-                        opacity: Math.sin(flourishFlow + index) * 0.3 + 0.7,
+                        opacity: Math.sin(flourishFlow + index) * 0.3 + 0.7
                       }}
                     >
                       <div className="w-3 h-3 rounded-full bg-yellow-400" />
                       <span className="text-sm">{stage}</span>
-                      {index < 3 && (
-                        <ArrowRight className="w-4 h-4 text-gray-400" />
-                      )}
+                      {index < 3 && <ArrowRight className="w-4 h-4 text-gray-400" />}
                     </motion.div>
                   ))}
                 </div>
@@ -420,31 +376,20 @@ const Landing = () => {
             {/* Testimonials */}
             <Card className="bg-black/40 border-white/20 backdrop-blur-md">
               <CardHeader>
-                <CardTitle className="text-purple-400">
-                  Sacred Testimonials
-                </CardTitle>
+                <CardTitle className="text-purple-400">Sacred Testimonials</CardTitle>
               </CardHeader>
               <CardContent className="space-y-4">
                 <div className="space-y-4">
                   <div className="p-3 bg-purple-500/10 rounded-lg">
-                    <p className="text-sm italic">
-                      "The soil speaks through data, algorithms honor
-                      ancestors."
-                    </p>
+                    <p className="text-sm italic">"The soil speaks through data, algorithms honor ancestors."</p>
                     <p className="text-xs text-gray-400 mt-2">— River Oracle</p>
                   </div>
                   <div className="p-3 bg-green-500/10 rounded-lg">
-                    <p className="text-sm italic">
-                      "Flourish rewards the heart that serves all life."
-                    </p>
-                    <p className="text-xs text-gray-400 mt-2">
-                      — Forest Delegate
-                    </p>
+                    <p className="text-sm italic">"Flourish rewards the heart that serves all life."</p>
+                    <p className="text-xs text-gray-400 mt-2">— Forest Delegate</p>
                   </div>
                   <div className="p-3 bg-blue-500/10 rounded-lg">
-                    <p className="text-sm italic">
-                      "Every line of code becomes a prayer for the future."
-                    </p>
+                    <p className="text-sm italic">"Every line of code becomes a prayer for the future."</p>
                     <p className="text-xs text-gray-400 mt-2">— Sacred Coder</p>
                   </div>
                 </div>
@@ -454,22 +399,14 @@ const Landing = () => {
             {/* Contribution Portal */}
             <Card className="bg-gradient-to-br from-green-500/20 to-emerald-500/20 border-green-400/20 backdrop-blur-md">
               <CardHeader>
-                <CardTitle className="text-green-400">
-                  Start Contributing
-                </CardTitle>
+                <CardTitle className="text-green-400">Start Contributing</CardTitle>
               </CardHeader>
               <CardContent className="space-y-4">
                 <p className="text-sm text-gray-300">
-                  Your unique gifts are needed. Begin generating sacred value
-                  through:
+                  Your unique gifts are needed. Begin generating sacred value through:
                 </p>
                 <div className="space-y-2">
-                  {[
-                    "Ritual Design",
-                    "Wisdom Sharing",
-                    "Community Building",
-                    "Bioregional Healing",
-                  ].map((activity) => (
+                  {['Ritual Design', 'Wisdom Sharing', 'Community Building', 'Bioregional Healing'].map((activity) => (
                     <div key={activity} className="flex items-center space-x-2">
                       <Heart className="w-4 h-4 text-green-400" />
                       <span className="text-sm">{activity}</span>
@@ -502,8 +439,7 @@ const Landing = () => {
               Wisdom Co-Pilots
             </h2>
             <p className="text-2xl text-gray-300 max-w-4xl mx-auto mb-8">
-              🧬 Your guide is not an algorithm. It is a living intelligence
-              trained on wisdom.
+              🧬 Your guide is not an algorithm. It is a living intelligence trained on wisdom.
             </p>
             <p className="text-xl text-cyan-400">Meet your SDG Guardian.</p>
           </motion.div>
@@ -520,40 +456,26 @@ const Landing = () => {
                 <Card className="bg-black/40 border-white/20 backdrop-blur-md hover:border-white/40 transition-all h-full">
                   <CardHeader className="text-center">
                     <div className="text-4xl mb-2">{copilot.avatar}</div>
-                    <CardTitle className="text-purple-400">
-                      {copilot.name}
-                    </CardTitle>
+                    <CardTitle className="text-purple-400">{copilot.name}</CardTitle>
                     <p className="text-sm text-gray-400">{copilot.archetype}</p>
                   </CardHeader>
                   <CardContent className="space-y-4">
-                    <p className="text-sm text-gray-300">
-                      {copilot.personality}
-                    </p>
+                    <p className="text-sm text-gray-300">{copilot.personality}</p>
 
                     <div className="space-y-2">
-                      <h4 className="text-sm font-semibold text-cyan-400">
-                        Specializations:
-                      </h4>
+                      <h4 className="text-sm font-semibold text-cyan-400">Specializations:</h4>
                       <div className="flex flex-wrap gap-1">
                         {copilot.specialization.map((spec) => (
-                          <Badge
-                            key={spec}
-                            variant="outline"
-                            className="text-xs"
-                          >
-                            {spec.replace("_", " ")}
+                          <Badge key={spec} variant="outline" className="text-xs">
+                            {spec.replace('_', ' ')}
                           </Badge>
                         ))}
                       </div>
                     </div>
 
                     <div className="p-3 bg-purple-500/10 rounded-lg">
-                      <p className="text-xs text-gray-400 mb-2">
-                        Sample Interaction:
-                      </p>
-                      <p className="text-sm italic text-gray-300">
-                        "{copilot.sampleInteraction.response}"
-                      </p>
+                      <p className="text-xs text-gray-400 mb-2">Sample Interaction:</p>
+                      <p className="text-sm italic text-gray-300">"{copilot.sampleInteraction.response}"</p>
                     </div>
 
                     <Button
@@ -575,9 +497,7 @@ const Landing = () => {
             <Card className="bg-gradient-to-r from-purple-500/20 to-blue-500/20 border-purple-400/20 backdrop-blur-md">
               <CardContent className="p-6">
                 <div className="text-center mb-4">
-                  <h3 className="text-lg font-semibold text-purple-400 mb-2">
-                    Ask about your place in the 144+
-                  </h3>
+                  <h3 className="text-lg font-semibold text-purple-400 mb-2">Ask about your place in the 144+</h3>
                 </div>
                 <div className="flex space-x-2">
                   <input
@@ -585,10 +505,7 @@ const Landing = () => {
                     placeholder="How can I serve planetary awakening?"
                     className="flex-1 bg-black/20 border border-white/20 rounded px-3 py-2 text-white placeholder-gray-400"
                   />
-                  <Button
-                    size="sm"
-                    className="bg-purple-500 hover:bg-purple-600"
-                  >
+                  <Button size="sm" className="bg-purple-500 hover:bg-purple-600">
                     <Brain className="w-4 h-4" />
                   </Button>
                 </div>
@@ -612,8 +529,7 @@ const Landing = () => {
               📜 The Sacred Scroll
             </h2>
             <p className="text-2xl text-gray-300 max-w-4xl mx-auto">
-              This is a platform. This is a prayer. This is software that
-              remembers the Earth.
+              This is a platform. This is a prayer. This is software that remembers the Earth.
             </p>
           </motion.div>
 
@@ -628,19 +544,11 @@ const Landing = () => {
               >
                 <Card className="bg-black/40 border-white/20 backdrop-blur-md">
                   <CardContent className="p-8">
-                    <h3 className="text-2xl font-bold text-cyan-400 mb-4">
-                      {section.title}
-                    </h3>
-                    <p className="text-lg text-gray-300 leading-relaxed mb-4">
-                      {section.content}
-                    </p>
+                    <h3 className="text-2xl font-bold text-cyan-400 mb-4">{section.title}</h3>
+                    <p className="text-lg text-gray-300 leading-relaxed mb-4">{section.content}</p>
                     <div className="flex flex-wrap gap-2">
                       {section.lineage.map((item) => (
-                        <Badge
-                          key={item}
-                          variant="outline"
-                          className="text-xs border-cyan-400/50 text-cyan-400"
-                        >
+                        <Badge key={item} variant="outline" className="text-xs border-cyan-400/50 text-cyan-400">
                           {item}
                         </Badge>
                       ))}
@@ -653,25 +561,14 @@ const Landing = () => {
 
           {/* Contributors */}
           <div className="mt-16">
-            <h3 className="text-2xl font-bold text-center mb-8 text-purple-400">
-              Sacred Contributors
-            </h3>
+            <h3 className="text-2xl font-bold text-center mb-8 text-purple-400">Sacred Contributors</h3>
             <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-4xl mx-auto">
               {SCROLL_OF_ORIGINS.contributors.map((contributor) => (
-                <Card
-                  key={contributor.name}
-                  className="bg-purple-500/10 border-purple-400/20 backdrop-blur-md"
-                >
+                <Card key={contributor.name} className="bg-purple-500/10 border-purple-400/20 backdrop-blur-md">
                   <CardContent className="p-4 text-center">
-                    <h4 className="font-semibold text-purple-400">
-                      {contributor.name}
-                    </h4>
-                    <p className="text-sm text-gray-400 mb-2">
-                      {contributor.role} • {contributor.lineage}
-                    </p>
-                    <p className="text-xs italic text-gray-300">
-                      "{contributor.wisdom}"
-                    </p>
+                    <h4 className="font-semibold text-purple-400">{contributor.name}</h4>
+                    <p className="text-sm text-gray-400 mb-2">{contributor.role} • {contributor.lineage}</p>
+                    <p className="text-xs italic text-gray-300">"{contributor.wisdom}"</p>
                   </CardContent>
                 </Card>
               ))}
@@ -707,9 +604,7 @@ const Landing = () => {
                 className="cursor-pointer"
                 onClick={() => handleRoleSelect(role)}
               >
-                <Card
-                  className={`bg-gradient-to-br ${role.gradient} border-white/20 backdrop-blur-md hover:border-white/40 transition-all h-full`}
-                >
+                <Card className={`bg-gradient-to-br ${role.gradient} border-white/20 backdrop-blur-md hover:border-white/40 transition-all h-full`}>
                   <CardHeader className="text-center">
                     <div className="text-4xl mb-2">{role.icon}</div>
                     <CardTitle className="text-white">{role.name}</CardTitle>
@@ -719,17 +614,11 @@ const Landing = () => {
                     <p className="text-sm text-gray-200">{role.description}</p>
 
                     <div className="space-y-2">
-                      <h4 className="text-sm font-semibold text-cyan-400">
-                        Sacred Tools:
-                      </h4>
+                      <h4 className="text-sm font-semibold text-cyan-400">Sacred Tools:</h4>
                       <div className="flex flex-wrap gap-1">
                         {role.sacredTools.slice(0, 3).map((tool) => (
-                          <Badge
-                            key={tool}
-                            variant="outline"
-                            className="text-xs"
-                          >
-                            {tool.replace("_", " ")}
+                          <Badge key={tool} variant="outline" className="text-xs">
+                            {tool.replace('_', ' ')}
                           </Badge>
                         ))}
                       </div>
@@ -738,7 +627,7 @@ const Landing = () => {
                     <Button
                       className={`w-full bg-gradient-to-r ${role.color} hover:opacity-90 text-black font-semibold`}
                     >
-                      Enter as {role.name.split(" ")[1]}
+                      Enter as {role.name.split(' ')[1]}
                     </Button>
                   </CardContent>
                 </Card>
@@ -753,70 +642,35 @@ const Landing = () => {
         <div className="container mx-auto px-6">
           <div className="grid md:grid-cols-4 gap-8 mb-8">
             <div>
-              <h4 className="font-semibold mb-4 text-cyan-400">
-                Sacred Scrolls
-              </h4>
+              <h4 className="font-semibold mb-4 text-cyan-400">Sacred Scrolls</h4>
               <div className="space-y-2 text-sm">
-                <a href="#" className="block text-gray-400 hover:text-white">
-                  Governance Protocols
-                </a>
-                <a href="#" className="block text-gray-400 hover:text-white">
-                  Ethical Frameworks
-                </a>
-                <a href="#" className="block text-gray-400 hover:text-white">
-                  Wisdom Archives
-                </a>
+                <a href="#" className="block text-gray-400 hover:text-white">Governance Protocols</a>
+                <a href="#" className="block text-gray-400 hover:text-white">Ethical Frameworks</a>
+                <a href="#" className="block text-gray-400 hover:text-white">Wisdom Archives</a>
               </div>
             </div>
             <div>
-              <h4 className="font-semibold mb-4 text-purple-400">
-                Sacred Networks
-              </h4>
+              <h4 className="font-semibold mb-4 text-purple-400">Sacred Networks</h4>
               <div className="space-y-2 text-sm">
-                <a href="#" className="block text-gray-400 hover:text-white">
-                  Bioregional Portals
-                </a>
-                <a href="#" className="block text-gray-400 hover:text-white">
-                  Guardian AI Council
-                </a>
-                <a href="#" className="block text-gray-400 hover:text-white">
-                  Future Delegates
-                </a>
+                <a href="#" className="block text-gray-400 hover:text-white">Bioregional Portals</a>
+                <a href="#" className="block text-gray-400 hover:text-white">Guardian AI Council</a>
+                <a href="#" className="block text-gray-400 hover:text-white">Future Delegates</a>
               </div>
             </div>
             <div>
-              <h4 className="font-semibold mb-4 text-green-400">
-                Sacred Economy
-              </h4>
+              <h4 className="font-semibold mb-4 text-green-400">Sacred Economy</h4>
               <div className="space-y-2 text-sm">
-                <a href="#" className="block text-gray-400 hover:text-white">
-                  Flourish Ledger
-                </a>
-                <a href="#" className="block text-gray-400 hover:text-white">
-                  Regenerative Funds
-                </a>
-                <a href="#" className="block text-gray-400 hover:text-white">
-                  Gift Protocols
-                </a>
+                <a href="#" className="block text-gray-400 hover:text-white">Flourish Ledger</a>
+                <a href="#" className="block text-gray-400 hover:text-white">Regenerative Funds</a>
+                <a href="#" className="block text-gray-400 hover:text-white">Gift Protocols</a>
               </div>
             </div>
             <div>
-              <h4 className="font-semibold mb-4 text-orange-400">
-                Sacred Nodes
-              </h4>
+              <h4 className="font-semibold mb-4 text-orange-400">Sacred Nodes</h4>
               <div className="space-y-2 text-sm">
-                <a
-                  href="/ritual-technologist"
-                  className="block text-gray-400 hover:text-white"
-                >
-                  Ritual Technologist
-                </a>
-                <a href="#" className="block text-gray-400 hover:text-white">
-                  Future Diplomat
-                </a>
-                <a href="#" className="block text-gray-400 hover:text-white">
-                  Forest Delegate
-                </a>
+                <a href="/ritual-technologist" className="block text-gray-400 hover:text-white">Ritual Technologist</a>
+                <a href="#" className="block text-gray-400 hover:text-white">Future Diplomat</a>
+                <a href="#" className="block text-gray-400 hover:text-white">Forest Delegate</a>
                 <div className="flex items-center space-x-2 text-xs mt-3">
                   <Clock className="w-3 h-3" />
                   <span className="text-gray-500">Time of {timeOfDay}</span>
@@ -835,8 +689,7 @@ const Landing = () => {
               "{LANDING_QUOTES[currentQuote]}"
             </motion.p>
             <p className="text-sm text-gray-500">
-              CIVICA 144+ • Sacred Technology for Planetary Awakening •{" "}
-              {new Date().getFullYear()}
+              CIVICA 144+ • Sacred Technology for Planetary Awakening • {new Date().getFullYear()}
             </p>
           </div>
         </div>
@@ -906,24 +759,40 @@ const Landing = () => {
               <h3 className="text-2xl font-bold text-cyan-400">
                 Preparing your sacred entry as {selectedRole.name}
               </h3>
-              <div className="text-lg text-gray-300">
-                Gathering the tools of {selectedRole.title}...
-              </div>
+            <div className="text-center space-y-8">
               <motion.div
-                animate={{ rotate: 360 }}
-                transition={{ duration: 2, repeat: Infinity, ease: "linear" }}
-                className="mx-auto"
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.2 }}
               >
-                <SacredPortal
-                  type="spiral"
-                  size={200}
-                  intensity={0.8}
-                  timeOfDay={timeOfDay}
-                  interactive={false}
-                />
+                <h2 className="text-3xl font-bold text-cyan-400 mb-4">Choose Your Sacred Portal</h2>
+                <p className="text-gray-300 max-w-2xl mx-auto">
+                  Each path offers a unique gateway into the collective intelligence of CIVICA 144.
+                  Select the entrance that resonates with your current calling.
+                </p>
               </motion.div>
-            </motion.div>
-          </motion.div>
+
+              {/* Featured Ritual Technologist */}
+              <motion.div
+                initial={{ opacity: 0, scale: 0.9 }}
+                animate={{ opacity: 1, scale: 1 }}
+                transition={{ delay: 0.4 }}
+                className="bg-gradient-to-r from-amber-500/20 to-orange-500/20 border border-amber-400/30 rounded-xl p-6 max-w-md mx-auto mb-8"
+              >
+                <div className="flex items-center justify-center mb-4">
+                  <span className="text-3xl">🛠️</span>
+                </div>
+                <h3 className="text-xl font-bold text-amber-400 mb-2">Ritual Technology Services</h3>
+                <p className="text-gray-300 text-sm mb-4">
+                  Sacred business transformation and civilizational technology consulting
+                </p>
+                <Button
+                  onClick={() => navigate('/ritual-technologist')}
+                  className="w-full bg-gradient-to-r from-amber-500 to-orange-500 hover:from-amber-600 hover:to-orange-600 text-white"
+                >
+                  Explore Services
+                </Button>
+              </motion.div>
         )}
       </AnimatePresence>
     </div>

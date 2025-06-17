@@ -167,8 +167,16 @@ const ClusterCompass = ({
             }}
             whileHover={interactive && node.canEnter ? { scale: 1.2 } : {}}
             onClick={() => {
-              if (interactive && node.canEnter && onClusterSelect) {
-                onClusterSelect(node.id);
+              if (interactive && node.canEnter) {
+                // Handle external links
+                if (node.externalLink) {
+                  window.location.href = node.externalLink;
+                  return;
+                }
+                // Handle internal navigation
+                if (onClusterSelect) {
+                  onClusterSelect(node.id);
+                }
               }
             }}
             onHoverStart={() => interactive && setHoveredCluster(node.id)}
