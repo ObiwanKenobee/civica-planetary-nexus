@@ -20,6 +20,7 @@ import {
 import { useSacredAuth } from "./useSacredAuth";
 import { useCivica } from "@/contexts/CivicaContext";
 import { useToast } from "./use-toast";
+import { PaymentSecurity } from "@/lib/payment-security";
 
 interface BillingContextType extends BillingContext {
   upgradePlan: (planId: string) => Promise<boolean>;
@@ -285,6 +286,20 @@ export const BillingProvider: React.FC<{ children: ReactNode }> = ({
       const plan = CIVICA_BILLING_PLANS.find((p) => p.id === planId);
       if (!plan) return false;
 
+      // Security validation for plan upgrade
+      PaymentSecurity.AuditLogger.logSecurityEvent(
+        "payment_fraud_detected",
+        "Plan upgrade initiated",
+        {
+          planId,
+          userId: user?.id,
+          currentPlan: state.currentPlan?.id,
+          type: "plan_upgrade",
+        },
+        "info",
+        user?.id,
+      );
+
       // Calculate price based on region
       const pricing = plan.regionalPricing.find(
         (p) => p.region === state.region,
@@ -307,6 +322,12 @@ export const BillingProvider: React.FC<{ children: ReactNode }> = ({
 
       dispatch({ type: "SET_CURRENT_PLAN", payload: planId });
       dispatch({ type: "ADD_TRANSACTION", payload: transaction });
+
+      // Generate sacred blessing for the transaction
+      PaymentSecurity.SacredSecurity.blessTransaction(
+        transaction.id,
+        `Sacred plan upgrade to ${plan.name} blessed with divine abundance and service`,
+      );
 
       // Generate Flourish for upgrading
       generateFlourish("plan_upgrade", {
@@ -364,6 +385,25 @@ export const BillingProvider: React.FC<{ children: ReactNode }> = ({
     method: string,
   ): Promise<boolean> => {
     try {
+      // Security validation for payment
+      PaymentSecurity.InputValidator.validateAmount(amount);
+      PaymentSecurity.InputValidator.validateCurrency(state.billingCurrency);
+
+      // Log payment attempt
+      PaymentSecurity.AuditLogger.logSecurityEvent(
+        "payment_fraud_detected",
+        "Payment processing initiated",
+        {
+          amount,
+          method,
+          currency: state.billingCurrency,
+          userId: user?.id,
+          type: "payment_processing",
+        },
+        "info",
+        user?.id,
+      );
+
       // Simulate payment processing
       const transaction: BillingTransaction = {
         id: `txn_${Date.now()}`,
@@ -374,9 +414,17 @@ export const BillingProvider: React.FC<{ children: ReactNode }> = ({
         paymentMethod: method,
         description: `Monthly subscription payment`,
         timestamp: new Date(),
+        ritualContext: "sacred_payment_ceremony",
+        blessings: ["financial_flow", "service_abundance"],
       };
 
       dispatch({ type: "ADD_TRANSACTION", payload: transaction });
+
+      // Bless the successful payment
+      PaymentSecurity.SacredSecurity.blessTransaction(
+        transaction.id,
+        "Sacred payment flows with gratitude and abundance to planetary healing",
+      );
 
       toast({
         title: "Sacred Exchange Complete",

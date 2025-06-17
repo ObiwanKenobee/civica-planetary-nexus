@@ -4,6 +4,12 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog";
+import {
   CreditCard,
   Sparkles,
   Globe,
@@ -21,6 +27,7 @@ import {
   Gift,
   Coins,
   Settings,
+  Lock,
 } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useBilling } from "@/hooks/useBilling";
@@ -28,6 +35,7 @@ import { useSacredAuth } from "@/hooks/useSacredAuth";
 import { useCivica } from "@/contexts/CivicaContext";
 import { useNavigate } from "react-router-dom";
 import { BillingPlan } from "@/types/billing";
+import SecurePaymentForm from "@/components/SecurePaymentForm";
 
 const Billing = () => {
   const navigate = useNavigate();
@@ -51,6 +59,9 @@ const Billing = () => {
   );
   const [isUpgrading, setIsUpgrading] = useState(false);
   const [showFlourish, setShowFlourish] = useState(false);
+  const [showSecurePayment, setShowSecurePayment] = useState(false);
+  const [selectedPlanForPayment, setSelectedPlanForPayment] =
+    useState<BillingPlan | null>(null);
 
   const planIcons: Record<string, any> = {
     civic_explorer: Globe,
@@ -63,22 +74,47 @@ const Billing = () => {
   const handlePlanSelect = async (planId: string) => {
     if (planId === currentPlan?.id) return;
 
-    setIsUpgrading(true);
+    const selectedPlan = availablePlans.find((p) => p.id === planId);
+    if (!selectedPlan) return;
 
-    try {
-      const success = await upgradePlan(planId);
-      if (success) {
-        setSelectedPlanId(planId);
-        // Generate Flourish for engaging with billing
-        generateFlourish("billing_engagement", {
-          wisdom: 5,
-          service: 3,
-          total: 8,
-        });
+    // If it's a paid plan, open secure payment form
+    if (selectedPlan.basePrice > 0) {
+      setSelectedPlanForPayment(selectedPlan);
+      setShowSecurePayment(true);
+    } else {
+      // For free plans, upgrade directly
+      setIsUpgrading(true);
+
+      try {
+        const success = await upgradePlan(planId);
+        if (success) {
+          setSelectedPlanId(planId);
+          generateFlourish("billing_engagement", {
+            wisdom: 5,
+            service: 3,
+            total: 8,
+          });
+        }
+      } finally {
+        setIsUpgrading(false);
       }
-    } finally {
-      setIsUpgrading(false);
     }
+  };
+
+  const handleSecurePaymentSuccess = () => {
+    setShowSecurePayment(false);
+    setSelectedPlanForPayment(null);
+    // Refresh billing data or show success message
+    generateFlourish("secure_payment_completion", {
+      wisdom: 15,
+      service: 10,
+      total: 25,
+    });
+  };
+
+  const handleSecurePaymentCancel = () => {
+    setShowSecurePayment(false);
+    setSelectedPlanForPayment(null);
   };
 
   const getPlanPrice = (plan: BillingPlan) => {
@@ -431,7 +467,10 @@ const Billing = () => {
                           ) : plan.basePrice === 0 ? (
                             "Begin Sacred Journey"
                           ) : (
-                            `Ascend to ${plan.name}`
+                            <>
+                              <Lock className="w-4 h-4 mr-2" />
+                              Secure Ascend to {plan.name}
+                            </>
                           )}
                         </Button>
                       </CardContent>
@@ -818,6 +857,30 @@ const Billing = () => {
           </TabsContent>
         </Tabs>
       </div>
+
+      {/* Secure Payment Dialog */}
+      <Dialog open={showSecurePayment} onOpenChange={setShowSecurePayment}>
+        <DialogContent className="max-w-5xl max-h-[90vh] overflow-y-auto bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900 border-white/20">
+          <DialogHeader>
+            <DialogTitle className="flex items-center space-x-2 text-cyan-400">
+              <Lock className="w-5 h-5" />
+              <span>Sacred Secure Payment</span>
+              <Badge className="bg-green-500/20 text-green-400">
+                <Shield className="w-3 h-3 mr-1" />
+                Military-Grade Security
+              </Badge>
+            </DialogTitle>
+          </DialogHeader>
+
+          {selectedPlanForPayment && (
+            <SecurePaymentForm
+              plan={selectedPlanForPayment}
+              onSuccess={handleSecurePaymentSuccess}
+              onCancel={handleSecurePaymentCancel}
+            />
+          )}
+        </DialogContent>
+      </Dialog>
     </div>
   );
 };
