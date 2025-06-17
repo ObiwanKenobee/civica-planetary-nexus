@@ -18,25 +18,35 @@ const App = () => (
   <QueryClientProvider client={queryClient}>
     <SacredAuthProvider>
       <CivicaProvider>
-        <TooltipProvider>
-          <Toaster />
-          <Sonner />
-          <BrowserRouter>
-            <Routes>
-              <Route path="/auth" element={<Auth />} />
-              <Route
-                path="/"
-                element={
-                  <SacredAuthGuard>
-                    <Index />
-                  </SacredAuthGuard>
-                }
-              />
-              {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
-              <Route path="*" element={<NotFound />} />
-            </Routes>
-          </BrowserRouter>
-        </TooltipProvider>
+        <BillingProvider>
+          <TooltipProvider>
+            <Toaster />
+            <Sonner />
+            <BrowserRouter>
+              <Routes>
+                <Route path="/auth" element={<Auth />} />
+                <Route
+                  path="/billing"
+                  element={
+                    <SacredAuthGuard>
+                      <Billing />
+                    </SacredAuthGuard>
+                  }
+                />
+                <Route
+                  path="/"
+                  element={
+                    <SacredAuthGuard>
+                      <Index />
+                    </SacredAuthGuard>
+                  }
+                />
+                {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
+                <Route path="*" element={<NotFound />} />
+              </Routes>
+            </BrowserRouter>
+          </TooltipProvider>
+        </BillingProvider>
       </CivicaProvider>
     </SacredAuthProvider>
   </QueryClientProvider>
