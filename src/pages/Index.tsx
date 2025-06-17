@@ -96,45 +96,12 @@ const Index = () => {
         ))}
       </div>
 
-      {/* Header */}
-      <header className="relative z-10 p-6 border-b border-white/20 backdrop-blur-sm">
-        <div className="flex items-center justify-between max-w-7xl mx-auto">
-          <div className="flex items-center space-x-4">
-            <Globe className="w-8 h-8 text-cyan-400" />
-            <div>
-              <h1 className="text-2xl font-bold bg-gradient-to-r from-cyan-400 to-purple-400 bg-clip-text text-transparent">
-                CIVICA 144
-              </h1>
-              <p className="text-sm text-gray-400">
-                Intelligent SDG Operating Platform
-              </p>
-            </div>
-          </div>
-          <div className="flex items-center space-x-4">
-            <SacredNavigation />
-            <Badge
-              variant="secondary"
-              className="bg-green-500/20 text-green-400"
-            >
-              <Zap className="w-3 h-3 mr-1" />
-              Live Network
-            </Badge>
-            <Badge
-              variant="secondary"
-              className="bg-purple-500/20 text-purple-400"
-            >
-              {globalStats.totalProgress}% Global Progress
-            </Badge>
-            <Button
-              variant="outline"
-              className="border-purple-500 text-purple-400 hover:bg-purple-500/20"
-            >
-              <Brain className="w-4 h-4 mr-2" />
-              AI Co-Pilot Council
-            </Button>
-          </div>
-        </div>
-      </header>
+      {/* Navigation Oracle Header */}
+      <NavigationOracle
+        isAuthenticated={true}
+        userRole="ritual_designer" // This should come from auth context
+        onRoleSelect={(role) => console.log("Role selected:", role)}
+      />
 
       <div className="relative z-10 max-w-7xl mx-auto p-6">
         {!showSDGDetails ? (
