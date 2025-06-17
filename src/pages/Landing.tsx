@@ -793,6 +793,106 @@ const Landing = () => {
                   Explore Services
                 </Button>
               </motion.div>
+            )}
+          </AnimatePresence>
+        </div>
+      </section>
+
+      {/* Footer */}
+      <footer className="relative py-12 border-t border-white/20">
+        <div className="container mx-auto px-6 text-center">
+          <div className="space-y-6">
+            <div className="flex items-center justify-center space-x-8">
+              <Button
+                onClick={() => navigate('/ritual-technologist')}
+                variant="outline"
+                className="border-amber-400 text-amber-400 hover:bg-amber-400/20"
+              >
+                🛠️ Ritual Technology Services
+              </Button>
+              <Button
+                onClick={() => navigate('/auth')}
+                className="bg-gradient-to-r from-cyan-500 to-purple-500 hover:from-cyan-600 hover:to-purple-600"
+              >
+                Enter the Portal
+              </Button>
+            </div>
+            <p className="text-gray-400 text-sm">
+              CIVICA 144 • Living System for Planetary Intelligence • Sacred Technology in Service of All Life
+            </p>
+          </div>
+        </div>
+      </footer>
+
+      {/* Role Selection Modal */}
+      <AnimatePresence>
+        {showRoleSelector && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 flex items-center justify-center p-6"
+            onClick={() => setShowRoleSelector(false)}
+          >
+            <motion.div
+              initial={{ scale: 0.8, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              exit={{ scale: 0.8, opacity: 0 }}
+              className="bg-black/60 border border-white/20 rounded-lg p-8 max-w-2xl w-full"
+              onClick={(e) => e.stopPropagation()}
+            >
+              <h3 className="text-2xl font-bold text-center mb-6 text-cyan-400">
+                Choose Your Sacred Path
+              </h3>
+              <div className="grid grid-cols-2 gap-4">
+                {SACRED_ROLES.slice(0, 6).map((role) => (
+                  <Button
+                    key={role.id}
+                    onClick={() => handleRoleSelect(role)}
+                    className={`bg-gradient-to-r ${role.gradient} hover:opacity-90 text-black font-semibold p-4 h-auto flex flex-col items-center space-y-2`}
+                  >
+                    <span className="text-2xl">{role.icon}</span>
+                    <span className="text-sm">{role.name}</span>
+                  </Button>
+                ))}
+              </div>
+              <div className="text-center mt-6">
+                <Button
+                  variant="outline"
+                  onClick={() => setShowRoleSelector(false)}
+                  className="border-white/20 text-white hover:bg-white/10"
+                >
+                  Continue Exploring
+                </Button>
+              </div>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
+      {/* Selected Role Processing */}
+      <AnimatePresence>
+        {selectedRole && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="fixed inset-0 bg-black/90 backdrop-blur-sm z-50 flex items-center justify-center"
+          >
+            <motion.div
+              initial={{ scale: 0.8, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              className="text-center space-y-6"
+            >
+              <div className="text-6xl">{selectedRole.icon}</div>
+              <h3 className="text-2xl font-bold text-cyan-400">
+                Preparing your sacred entry as {selectedRole.name}
+              </h3>
+              <div className="animate-pulse text-purple-400">
+                The portal is aligning with your essence...
+              </div>
+            </motion.div>
+          </motion.div>
         )}
       </AnimatePresence>
     </div>
