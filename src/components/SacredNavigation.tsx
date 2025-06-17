@@ -26,6 +26,7 @@ const identityIcons = {
 const SacredNavigation = () => {
   const { user, activeRitualSession, sacredIdentities, signOut } =
     useSacredAuth();
+  const navigate = useNavigate();
 
   const activeIdentity = sacredIdentities.find(
     (identity) => identity.id === activeRitualSession?.identity_id,
@@ -58,15 +59,26 @@ const SacredNavigation = () => {
       )}
 
       {user && (
-        <Button
-          variant="outline"
-          size="sm"
-          onClick={signOut}
-          className="border-white/20 text-white hover:bg-white/10"
-        >
-          <LogOut className="w-4 h-4 mr-2" />
-          End Sacred Session
-        </Button>
+        <>
+          <Button
+            variant="outline"
+            size="sm"
+            onClick={() => navigate("/billing")}
+            className="border-cyan-400 text-cyan-400 hover:bg-cyan-400/20"
+          >
+            <Sparkles className="w-4 h-4 mr-2" />
+            Sacred Economy
+          </Button>
+          <Button
+            variant="outline"
+            size="sm"
+            onClick={signOut}
+            className="border-white/20 text-white hover:bg-white/10"
+          >
+            <LogOut className="w-4 h-4 mr-2" />
+            End Sacred Session
+          </Button>
+        </>
       )}
     </div>
   );
