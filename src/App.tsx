@@ -6,54 +6,73 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { SacredAuthProvider } from "@/hooks/useSacredAuth";
 import { CivicaProvider } from "@/contexts/CivicaContext";
 import { BillingProvider } from "@/hooks/useBilling";
+import ErrorBoundary from "./components/ErrorBoundary";
+import LoadingSpinner from "./components/LoadingSpinner";
+import PageNotFound from "./components/PageNotFound";
 import Landing from "./pages/Landing";
 import Index from "./pages/Index";
 import Auth from "./pages/Auth";
 import Billing from "./pages/Billing";
 import RitualTech from "./pages/RitualTech";
-import NotFound from "./pages/NotFound";
 import SacredAuthGuard from "./components/SacredAuthGuard";
+import { Suspense } from "react";
 
 const queryClient = new QueryClient();
 
 const App = () => (
-  <QueryClientProvider client={queryClient}>
-    <SacredAuthProvider>
-      <CivicaProvider>
-        <BillingProvider>
-          <TooltipProvider>
-            <Toaster />
-            <Sonner />
-            <BrowserRouter>
-              <Routes>
-                <Route path="/" element={<Landing />} />
-                <Route path="/auth" element={<Auth />} />
-                <Route path="/ritual-technologist" element={<RitualTech />} />
-                <Route
-                  path="/dashboard"
-                  element={
-                    <SacredAuthGuard>
-                      <Index />
-                    </SacredAuthGuard>
+  <ErrorBoundary>
+    <QueryClientProvider client={queryClient}>
+      <SacredAuthProvider>
+        <CivicaProvider>
+          <BillingProvider>
+            <TooltipProvider>
+              <Toaster />
+              <Sonner />
+              <BrowserRouter>
+                <Suspense
+                  fallback={
+                    <LoadingSpinner
+                      type="mandala"
+                      size="lg"
+                      message="Initializing Sacred Technology..."
+                      fullScreen
+                    />
                   }
-                />
-                <Route
-                  path="/billing"
-                  element={
-                    <SacredAuthGuard>
-                      <Billing />
-                    </SacredAuthGuard>
-                  }
-                />
-                {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
-                <Route path="*" element={<NotFound />} />
-              </Routes>
-            </BrowserRouter>
-          </TooltipProvider>
-        </BillingProvider>
-      </CivicaProvider>
-    </SacredAuthProvider>
-  </QueryClientProvider>
+                >
+                  <Routes>
+                    <Route path="/" element={<Landing />} />
+                    <Route path="/auth" element={<Auth />} />
+                    <Route
+                      path="/ritual-technologist"
+                      element={<RitualTech />}
+                    />
+                    <Route
+                      path="/dashboard"
+                      element={
+                        <SacredAuthGuard>
+                          <Index />
+                        </SacredAuthGuard>
+                      }
+                    />
+                    <Route
+                      path="/billing"
+                      element={
+                        <SacredAuthGuard>
+                          <Billing />
+                        </SacredAuthGuard>
+                      }
+                    />
+                    {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
+                    <Route path="*" element={<PageNotFound />} />
+                  </Routes>
+                </Suspense>
+              </BrowserRouter>
+            </TooltipProvider>
+          </BillingProvider>
+        </CivicaProvider>
+      </SacredAuthProvider>
+    </QueryClientProvider>
+  </ErrorBoundary>
 );
 
 export default App;

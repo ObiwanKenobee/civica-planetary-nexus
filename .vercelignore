@@ -1,0 +1,61 @@
+# CIVICA 144 Vercel Ignore
+# Optimize deployment by excluding unnecessary files
+
+# Development files
+.env.local
+.env.development
+*.log
+.DS_Store
+Thumbs.db
+
+# Source files (built versions are in dist)
+src/
+public/
+scripts/
+docs/
+
+# Build artifacts that aren't needed
+node_modules/
+.git/
+.github/
+coverage/
+.nyc_output/
+
+# IDE and editor files
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# Test files
+__tests__/
+test/
+*.test.*
+*.spec.*
+
+# Documentation
+README.md
+CHANGELOG.md
+LICENSE
+*.md
+
+# Configuration files not needed in production
+.eslintrc.*
+.prettierrc.*
+tsconfig.json
+tsconfig.*.json
+vite.config.ts
+tailwind.config.ts
+postcss.config.js
+components.json
+
+# Backup files
+*.backup
+*.bak
+*.old
+
+# Temporary files
+tmp/
+temp/
+.cache/
