@@ -1,15 +1,19 @@
-
 import { useState, useEffect } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Progress } from '@/components/ui/progress';
-import { Globe, Brain, Sparkles, Users, TreePine, Zap, Heart, Scale } from 'lucide-react';
-import { motion, AnimatePresence } from 'framer-motion';
+import { Globe, Brain, Zap, Heart, Users } from 'lucide-react';
+import { motion } from 'framer-motion';
+
+import AtlasOfIntelligence from '@/components/AtlasOfIntelligence';
+import SDGIntelligence from '@/components/SDGIntelligence';
+import { intelligenceClusters, getClusterById } from '@/data/intelligenceClusters';
 
 const Index = () => {
-  const [activeSDG, setActiveSDG] = useState(1);
+  const [activeCluster, setActiveCluster] = useState<number>(0);
   const [planetRotation, setPlanetRotation] = useState(0);
+  const [showSDGDetails, setShowSDGDetails] = useState(false);
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -18,47 +22,23 @@ const Index = () => {
     return () => clearInterval(interval);
   }, []);
 
-  const sdgClusters = [
-    { 
-      id: 1, 
-      title: "Consciousness & Well-being", 
-      icon: Brain, 
-      color: "from-purple-500 to-pink-500",
-      progress: 73,
-      nodes: ["Mental Health", "Spiritual Wellness", "Cognitive Freedom"]
-    },
-    { 
-      id: 2, 
-      title: "Ecological Symbiosis", 
-      icon: TreePine, 
-      color: "from-green-500 to-emerald-500",
-      progress: 68,
-      nodes: ["Climate Regeneration", "Biodiversity", "Sacred Geography"]
-    },
-    { 
-      id: 3, 
-      title: "Quantum Governance", 
-      icon: Scale, 
-      color: "from-blue-500 to-cyan-500",
-      progress: 45,
-      nodes: ["Polycentric Law", "Ritual Democracy", "AI Ethics"]
-    },
-    { 
-      id: 4, 
-      title: "Cosmic Economics", 
-      icon: Sparkles, 
-      color: "from-yellow-500 to-orange-500",
-      progress: 62,
-      nodes: ["Sacred Commerce", "Universal Abundance", "Wisdom Currency"]
-    }
-  ];
+  const handleClusterSelect = (clusterId: number) => {
+    setActiveCluster(clusterId);
+    setShowSDGDetails(clusterId > 0);
+  };
 
-  const regions = [
-    { name: "Gaia Americas", active: true, x: 25, y: 45 },
-    { name: "Ubuntu Africa", active: true, x: 55, y: 60 },
-    { name: "Dharma Asia", active: false, x: 75, y: 40 },
-    { name: "Sophia Europa", active: true, x: 45, y: 30 }
-  ];
+  const selectedCluster = activeCluster > 0 ? getClusterById(activeCluster) : null;
+
+  const globalStats = {
+    totalProgress: Math.round(
+      intelligenceClusters.reduce((sum, cluster) => sum + cluster.totalProgress, 0) / intelligenceClusters.length
+    ),
+    activeNodes: intelligenceClusters.reduce((sum, cluster) => 
+      sum + cluster.nodes.filter(node => node.status === 'active').length, 0
+    ),
+    totalRituals: intelligenceClusters.reduce((sum, cluster) => sum + cluster.activeRituals, 0),
+    aiCoPilots: intelligenceClusters.reduce((sum, cluster) => sum + cluster.aiCoPilots, 0)
+  };
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900 text-white overflow-hidden">
@@ -93,200 +73,188 @@ const Index = () => {
           <div className="flex items-center space-x-4">
             <Badge variant="secondary" className="bg-green-500/20 text-green-400">
               <Zap className="w-3 h-3 mr-1" />
-              Live
+              Live Network
+            </Badge>
+            <Badge variant="secondary" className="bg-purple-500/20 text-purple-400">
+              {globalStats.totalProgress}% Global Progress
             </Badge>
             <Button variant="outline" className="border-purple-500 text-purple-400 hover:bg-purple-500/20">
               <Brain className="w-4 h-4 mr-2" />
-              AI Co-Pilot
+              AI Co-Pilot Council
             </Button>
           </div>
         </div>
       </header>
 
       <div className="relative z-10 max-w-7xl mx-auto p-6">
-        <div className="grid lg:grid-cols-3 gap-8 h-full">
-          {/* Atlas of Intelligence */}
-          <div className="lg:col-span-2 space-y-6">
-            <Card className="bg-black/40 border-white/20 backdrop-blur-md">
-              <CardHeader>
-                <CardTitle className="flex items-center space-x-2 text-cyan-400">
-                  <Globe className="w-5 h-5" />
-                  <span>Atlas of Intelligence</span>
-                </CardTitle>
-              </CardHeader>
-              <CardContent>
-                <div className="relative h-80 bg-gradient-to-br from-blue-900/50 to-purple-900/50 rounded-lg overflow-hidden">
-                  {/* Planetary Visualization */}
-                  <div className="absolute inset-0 flex items-center justify-center">
-                    <motion.div
-                      className="relative w-48 h-48 rounded-full bg-gradient-to-br from-blue-500/30 to-green-500/30 border-2 border-cyan-400/50"
-                      animate={{ rotate: planetRotation }}
-                      transition={{ ease: "linear" }}
-                    >
-                      {/* Regional Nodes */}
-                      {regions.map((region, index) => (
-                        <motion.div
-                          key={region.name}
-                          className={`absolute w-3 h-3 rounded-full ${region.active ? 'bg-green-400' : 'bg-gray-500'} border-2 border-white`}
-                          style={{
-                            left: `${region.x}%`,
-                            top: `${region.y}%`,
-                            transform: 'translate(-50%, -50%)'
-                          }}
-                          whileHover={{ scale: 1.5 }}
-                        >
-                          <div className="absolute -top-8 left-1/2 transform -translate-x-1/2 text-xs whitespace-nowrap">
-                            {region.name}
-                          </div>
-                        </motion.div>
-                      ))}
-                      
-                      {/* Connection Lines */}
-                      <svg className="absolute inset-0 w-full h-full">
-                        <defs>
-                          <linearGradient id="connectionGradient" x1="0%" y1="0%" x2="100%" y2="100%">
-                            <stop offset="0%" style={{stopColor:'#06b6d4', stopOpacity:0.6}} />
-                            <stop offset="100%" style={{stopColor:'#8b5cf6', stopOpacity:0.6}} />
-                          </linearGradient>
-                        </defs>
-                        {regions.filter(r => r.active).map((region, i, arr) => 
-                          arr.slice(i + 1).map((otherRegion, j) => (
-                            <motion.line
-                              key={`${i}-${j}`}
-                              x1={`${region.x}%`}
-                              y1={`${region.y}%`}
-                              x2={`${otherRegion.x}%`}
-                              y2={`${otherRegion.y}%`}
-                              stroke="url(#connectionGradient)"
-                              strokeWidth="1"
-                              initial={{ pathLength: 0 }}
-                              animate={{ pathLength: 1 }}
-                              transition={{ duration: 2, delay: i * 0.5 }}
-                            />
-                          ))
-                        )}
-                      </svg>
-                    </motion.div>
+        {!showSDGDetails ? (
+          <div className="grid lg:grid-cols-3 gap-8">
+            {/* Atlas of Intelligence */}
+            <div className="lg:col-span-2 space-y-6">
+              <AtlasOfIntelligence 
+                onSelectCluster={handleClusterSelect}
+                selectedCluster={activeCluster}
+              />
+
+              {/* Global Intelligence Dashboard */}
+              <div className="grid md:grid-cols-2 gap-4">
+                <Card className="bg-black/40 border-white/20 backdrop-blur-md">
+                  <CardHeader>
+                    <CardTitle className="text-green-400">Planetary Pulse</CardTitle>
+                  </CardHeader>
+                  <CardContent className="space-y-3">
+                    <div className="space-y-2">
+                      <div className="flex justify-between text-sm">
+                        <span>Ecological Intelligence</span>
+                        <span className="text-green-400">67%</span>
+                      </div>
+                      <Progress value={67} className="h-2" />
+                    </div>
+                    <div className="space-y-2">
+                      <div className="flex justify-between text-sm">
+                        <span>Social Harmony</span>
+                        <span className="text-blue-400">72%</span>
+                      </div>
+                      <Progress value={72} className="h-2" />
+                    </div>
+                    <div className="space-y-2">
+                      <div className="flex justify-between text-sm">
+                        <span>Cosmic Consciousness</span>
+                        <span className="text-purple-400">43%</span>
+                      </div>
+                      <Progress value={43} className="h-2" />
+                    </div>
+                  </CardContent>
+                </Card>
+
+                <Card className="bg-black/40 border-white/20 backdrop-blur-md">
+                  <CardHeader>
+                    <CardTitle className="text-cyan-400">Network Status</CardTitle>
+                  </CardHeader>
+                  <CardContent className="space-y-3">
+                    <div className="grid grid-cols-2 gap-4 text-center">
+                      <div>
+                        <div className="text-2xl font-bold text-green-400">{globalStats.activeNodes}</div>
+                        <div className="text-xs text-gray-400">Active SDGs</div>
+                      </div>
+                      <div>
+                        <div className="text-2xl font-bold text-purple-400">{globalStats.totalRituals}</div>
+                        <div className="text-xs text-gray-400">Live Rituals</div>
+                      </div>
+                      <div>
+                        <div className="text-2xl font-bold text-blue-400">{globalStats.aiCoPilots}</div>
+                        <div className="text-xs text-gray-400">AI Co-Pilots</div>
+                      </div>
+                      <div>
+                        <div className="text-2xl font-bold text-orange-400">12</div>
+                        <div className="text-xs text-gray-400">Clusters</div>
+                      </div>
+                    </div>
+                  </CardContent>
+                </Card>
+              </div>
+            </div>
+
+            {/* Wisdom Panel */}
+            <div className="space-y-6">
+              <Card className="bg-black/40 border-white/20 backdrop-blur-md">
+                <CardHeader>
+                  <CardTitle className="flex items-center space-x-2 text-purple-400">
+                    <Heart className="w-5 h-5" />
+                    <span>Wisdom Commons</span>
+                  </CardTitle>
+                </CardHeader>
+                <CardContent className="space-y-4">
+                  <div className="p-3 bg-gradient-to-r from-purple-500/20 to-pink-500/20 rounded-lg">
+                    <p className="text-sm italic">
+                      "The Earth does not belong to us; we belong to the Earth. All things are connected like the blood that unites one family."
+                    </p>
+                    <p className="text-xs text-gray-400 mt-2">— Chief Seattle (Wisdom Archive)</p>
+                  </div>
+                  
+                  <div className="space-y-2">
+                    <h4 className="font-semibold text-cyan-400">Active Sacred Protocols</h4>
+                    <div className="space-y-1">
+                      <div className="flex justify-between text-sm">
+                        <span>Dawn Gratitude Circle</span>
+                        <span className="text-green-400">🟢 Live</span>
+                      </div>
+                      <div className="flex justify-between text-sm">
+                        <span>Climate Healing Ceremony</span>
+                        <span className="text-yellow-400">⏳ Starting</span>
+                      </div>
+                      <div className="flex justify-between text-sm">
+                        <span>Intergenerational Council</span>
+                        <span className="text-purple-400">📅 Scheduled</span>
+                      </div>
+                      <div className="flex justify-between text-sm">
+                        <span>Cosmic Consciousness Grid</span>
+                        <span className="text-blue-400">🌌 Emerging</span>
+                      </div>
+                    </div>
                   </div>
 
-                  {/* Floating SDG Indicators */}
-                  <div className="absolute top-4 right-4 space-y-2">
-                    <div className="text-xs text-cyan-400">Active SDGs: 144</div>
-                    <div className="text-xs text-green-400">Connected Regions: 3</div>
-                    <div className="text-xs text-purple-400">AI Co-Pilots: 8</div>
-                  </div>
-                </div>
-              </CardContent>
-            </Card>
+                  <Button className="w-full bg-gradient-to-r from-purple-500 to-pink-500 hover:from-purple-600 hover:to-pink-600">
+                    <Users className="w-4 h-4 mr-2" />
+                    Join Sacred Council
+                  </Button>
+                </CardContent>
+              </Card>
 
-            {/* SDG Cluster Grid */}
-            <div className="grid md:grid-cols-2 gap-4">
-              {sdgClusters.map((cluster) => {
-                const IconComponent = cluster.icon;
-                return (
-                  <motion.div
-                    key={cluster.id}
-                    whileHover={{ scale: 1.02 }}
-                    onClick={() => setActiveSDG(cluster.id)}
+              <Card className="bg-black/40 border-white/20 backdrop-blur-md">
+                <CardHeader>
+                  <CardTitle className="text-orange-400">Intelligence Clusters</CardTitle>
+                </CardHeader>
+                <CardContent className="space-y-2">
+                  {intelligenceClusters.slice(0, 6).map((cluster) => (
+                    <div key={cluster.id} className="flex justify-between items-center p-2 hover:bg-white/5 rounded cursor-pointer"
+                         onClick={() => handleClusterSelect(cluster.id)}>
+                      <span className="text-sm">{cluster.name.split(' & ')[0]}</span>
+                      <div className="flex items-center space-x-2">
+                        <Progress value={cluster.totalProgress} className="w-12 h-1" />
+                        <span className="text-xs text-gray-400">{cluster.totalProgress}%</span>
+                      </div>
+                    </div>
+                  ))}
+                  <Button 
+                    variant="ghost" 
+                    className="w-full text-cyan-400 hover:bg-cyan-400/20"
+                    onClick={() => setShowSDGDetails(false)}
                   >
-                    <Card className={`cursor-pointer transition-all duration-300 ${
-                      activeSDG === cluster.id 
-                        ? 'bg-gradient-to-br ' + cluster.color + ' border-white/40' 
-                        : 'bg-black/40 border-white/20 hover:border-white/40'
-                    } backdrop-blur-md`}>
-                      <CardContent className="p-4">
-                        <div className="flex items-center space-x-3 mb-3">
-                          <IconComponent className="w-6 h-6" />
-                          <h3 className="font-semibold">{cluster.title}</h3>
-                        </div>
-                        <Progress value={cluster.progress} className="mb-3" />
-                        <div className="flex flex-wrap gap-1">
-                          {cluster.nodes.map((node) => (
-                            <Badge key={node} variant="secondary" className="text-xs">
-                              {node}
-                            </Badge>
-                          ))}
-                        </div>
-                      </CardContent>
-                    </Card>
-                  </motion.div>
-                );
-              })}
+                    View All 12 Clusters
+                  </Button>
+                </CardContent>
+              </Card>
             </div>
           </div>
-
-          {/* Wisdom Panel */}
+        ) : (
           <div className="space-y-6">
-            <Card className="bg-black/40 border-white/20 backdrop-blur-md">
-              <CardHeader>
-                <CardTitle className="flex items-center space-x-2 text-purple-400">
-                  <Heart className="w-5 h-5" />
-                  <span>Wisdom Commons</span>
-                </CardTitle>
-              </CardHeader>
-              <CardContent className="space-y-4">
-                <div className="p-3 bg-gradient-to-r from-purple-500/20 to-pink-500/20 rounded-lg">
-                  <p className="text-sm italic">
-                    "The Earth does not belong to us; we belong to the Earth. All things are connected like the blood that unites one family."
-                  </p>
-                  <p className="text-xs text-gray-400 mt-2">— Chief Seattle (Wisdom Archive)</p>
-                </div>
-                
-                <div className="space-y-2">
-                  <h4 className="font-semibold text-cyan-400">Active Rituals</h4>
-                  <div className="space-y-1">
-                    <div className="flex justify-between text-sm">
-                      <span>Dawn Gratitude Circle</span>
-                      <span className="text-green-400">🟢 Live</span>
-                    </div>
-                    <div className="flex justify-between text-sm">
-                      <span>Climate Healing Ceremony</span>
-                      <span className="text-yellow-400">⏳ Starting</span>
-                    </div>
-                    <div className="flex justify-between text-sm">
-                      <span>Council of All Relations</span>
-                      <span className="text-purple-400">📅 Scheduled</span>
-                    </div>
-                  </div>
-                </div>
-
-                <Button className="w-full bg-gradient-to-r from-purple-500 to-pink-500 hover:from-purple-600 hover:to-pink-600">
-                  <Users className="w-4 h-4 mr-2" />
-                  Join Sacred Council
+            <div className="flex items-center justify-between">
+              <div className="flex items-center space-x-4">
+                <Button 
+                  variant="outline"
+                  onClick={() => setShowSDGDetails(false)}
+                  className="border-white/20 text-white hover:bg-white/10"
+                >
+                  ← Back to Atlas
                 </Button>
-              </CardContent>
-            </Card>
-
-            <Card className="bg-black/40 border-white/20 backdrop-blur-md">
-              <CardHeader>
-                <CardTitle className="text-green-400">Gaia Pulse</CardTitle>
-              </CardHeader>
-              <CardContent className="space-y-3">
-                <div className="space-y-2">
-                  <div className="flex justify-between text-sm">
-                    <span>Ocean Health</span>
-                    <span className="text-blue-400">73%</span>
-                  </div>
-                  <Progress value={73} className="h-2" />
-                </div>
-                <div className="space-y-2">
-                  <div className="flex justify-between text-sm">
-                    <span>Forest Vitality</span>
-                    <span className="text-green-400">68%</span>
-                  </div>
-                  <Progress value={68} className="h-2" />
-                </div>
-                <div className="space-y-2">
-                  <div className="flex justify-between text-sm">
-                    <span>Social Harmony</span>
-                    <span className="text-purple-400">81%</span>
-                  </div>
-                  <Progress value={81} className="h-2" />
-                </div>
-              </CardContent>
-            </Card>
+                {selectedCluster && (
+                  <h2 className="text-2xl font-bold text-white">
+                    {selectedCluster.name}
+                  </h2>
+                )}
+              </div>
+            </div>
+            
+            {selectedCluster && (
+              <SDGIntelligence
+                sdgId={selectedCluster.id}
+                title={selectedCluster.name}
+                color={`${selectedCluster.color}`}
+              />
+            )}
           </div>
-        </div>
+        )}
       </div>
     </div>
   );
