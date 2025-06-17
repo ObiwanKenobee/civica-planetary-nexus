@@ -26,6 +26,7 @@ import {
 import { useNavigate } from "react-router-dom";
 import SacredPortal from "@/components/SacredPortal";
 import SacredAudio from "@/components/SacredAudio";
+import NavigationOracle from "@/components/navigation/NavigationOracle";
 import {
   SACRED_ROLES,
   INTELLIGENCE_CLUSTERS_PREVIEW,
