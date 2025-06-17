@@ -802,15 +802,25 @@ const Landing = () => {
             </div>
             <div>
               <h4 className="font-semibold mb-4 text-orange-400">
-                Ritual Clock
+                Sacred Nodes
               </h4>
               <div className="space-y-2 text-sm">
-                <div className="flex items-center space-x-2">
-                  <Clock className="w-4 h-4" />
-                  <span className="text-gray-400">Time of {timeOfDay}</span>
+                <a
+                  href="/ritual-technologist"
+                  className="block text-gray-400 hover:text-white"
+                >
+                  Ritual Technologist
+                </a>
+                <a href="#" className="block text-gray-400 hover:text-white">
+                  Future Diplomat
+                </a>
+                <a href="#" className="block text-gray-400 hover:text-white">
+                  Forest Delegate
+                </a>
+                <div className="flex items-center space-x-2 text-xs mt-3">
+                  <Clock className="w-3 h-3" />
+                  <span className="text-gray-500">Time of {timeOfDay}</span>
                 </div>
-                <div className="text-gray-400">Next ceremony in 2h 34m</div>
-                <div className="text-gray-400">Lunar phase: Waxing 🌓</div>
               </div>
             </div>
           </div>
