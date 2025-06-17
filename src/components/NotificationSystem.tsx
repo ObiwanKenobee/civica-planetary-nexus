@@ -534,13 +534,5 @@ export const useSacredNotifications = () => {
   };
 };
 
-// Re-export the main components for convenience
-export {
-  NotificationProvider,
-  NotificationDisplay,
-  useNotifications,
-  useSacredNotifications,
-};
-
 // Default export for the provider (most commonly used)
 export default NotificationProvider;
