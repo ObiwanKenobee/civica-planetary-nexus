@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Progress } from "@/components/ui/progress";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import {
@@ -17,6 +18,14 @@ import {
 import { motion } from "framer-motion";
 
 import AtlasOfIntelligence from "@/components/AtlasOfIntelligence";
+import PatternRecognition from "@/components/PatternRecognition";
+import SDGIntelligence from "@/components/SDGIntelligence";
+import CollaborativeBuilder from "@/components/CollaborativeBuilder";
+import FlourishDisplay from "@/components/FlourishDisplay";
+import NavigationOracle from "@/components/navigation/NavigationOracle";
+import CommunityHub from "@/components/CommunityHub";
+import SacredCalendar from "@/components/SacredCalendar";
+import WisdomLibrary from "@/components/WisdomLibrary";
 import SDGIntelligence from "@/components/SDGIntelligence";
 import SDGNetworkBuilder from "@/components/SDGNetworkBuilder";
 import CollaborativeBuilder from "@/components/CollaborativeBuilder";
