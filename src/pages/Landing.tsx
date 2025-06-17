@@ -237,19 +237,8 @@ const Landing = () => {
           </p>
         </motion.div>
 
-        {/* Time indicator with Sacred Audio */}
-        <div className="absolute top-8 right-8 flex items-center space-x-4 text-gray-400">
-          <div className="flex items-center space-x-2">
-            {timeOfDay === "dawn" && <Sun className="w-5 h-5" />}
-            {timeOfDay === "midday" && (
-              <Sun className="w-5 h-5 text-yellow-400" />
-            )}
-            {timeOfDay === "dusk" && <Moon className="w-5 h-5" />}
-            {timeOfDay === "midnight" && (
-              <Moon className="w-5 h-5 text-blue-400" />
-            )}
-            <span className="text-sm capitalize">{timeOfDay}</span>
-          </div>
+        {/* Sacred Audio */}
+        <div className="absolute top-24 right-8">
           <SacredAudio timeOfDay={timeOfDay} enabled={true} />
         </div>
       </section>
