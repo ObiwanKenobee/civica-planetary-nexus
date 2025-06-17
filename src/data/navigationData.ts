@@ -473,6 +473,20 @@ export const CLUSTER_COMPASS_NODES: ClusterCompassNode[] = [
     canEnter: false,
     guardianMessage: "The cosmic council awaits collective readiness",
   },
+  {
+    id: 13,
+    name: "Ritual Technology Services",
+    shortName: "Ritual Tech",
+    glyph: "🛠️",
+    color: "#f59e0b", // amber-500
+    position: { angle: 15, radius: 100 },
+    activity: "intense",
+    wisdomLevel: 0.95,
+    activeRituals: 24,
+    canEnter: true,
+    externalLink: "/ritual-technologist",
+    description: "Sacred technology services and consultation",
+  },
 ];
 
 export const GLYPH_MORPHISMS: Record<string, GlyphMorphism> = {
