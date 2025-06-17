@@ -141,6 +141,15 @@ const Landing = () => {
         ))}
       </div>
 
+      {/* Navigation Oracle */}
+      <NavigationOracle
+        isAuthenticated={false}
+        onArrivalChoice={(choice) => {
+          console.log("Arrival choice:", choice);
+          // Handle navigation based on choice
+        }}
+      />
+
       {/* Section 1: Invocation Portal */}
       <section
         id="invocation"
