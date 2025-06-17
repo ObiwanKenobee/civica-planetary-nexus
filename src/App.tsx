@@ -10,6 +10,7 @@ import Landing from "./pages/Landing";
 import Index from "./pages/Index";
 import Auth from "./pages/Auth";
 import Billing from "./pages/Billing";
+import RitualTech from "./pages/RitualTech";
 import NotFound from "./pages/NotFound";
 import SacredAuthGuard from "./components/SacredAuthGuard";
 
