@@ -5,8 +5,10 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { SacredAuthProvider } from "@/hooks/useSacredAuth";
 import { CivicaProvider } from "@/contexts/CivicaContext";
+import { BillingProvider } from "@/hooks/useBilling";
 import Index from "./pages/Index";
 import Auth from "./pages/Auth";
+import Billing from "./pages/Billing";
 import NotFound from "./pages/NotFound";
 import SacredAuthGuard from "./components/SacredAuthGuard";
 
